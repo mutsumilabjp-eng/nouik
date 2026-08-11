@@ -1,35 +1,42 @@
 import Image from "next/image";
 import Link from "next/link";
-import { articleCard, categoryOrder, getArticlesByGroup, getArticleById, guideCta } from "./site";
+import { articleCard, getArticleById, getArticlesByGroup, guideCta } from "./site";
 
 export default function Home() {
   const byGroup = getArticlesByGroup();
+  const first = getArticleById("F02");
+  const safety = getArticleById("F09");
+  const hub = getArticleById("F13");
 
   return (
     <main>
       <section className="hero">
         <div className="hero-copy">
-          <p className="kicker">音声を聞いたあと、検索しているあなたへ</p>
+          <p className="kicker">昨日、音声を止めたあとに検索したあなたへ</p>
           <h1>
-            効いた人ばかりに
+            コメント欄は
             <br />
-            見えるのに、
+            反応している。
             <br />
-            自分には何も起きない。
+            私には何もない。
           </h1>
-          <p>それ、焦りますよね。脳イキ音声やASMRを試しても何も感じない。少し反応しても怖くなる。途中で冷める。ここでは、体験談だけでは見えない反応の分かれ目を一緒に見ていきます。</p>
+          <p>
+            これ、私だけ？と思ったなら、まずそこから見ます。脳イキ音声やASMRで何も感じない、少し来ても怖くなる、いい所で急に冷める。その違いを、体験談の熱量に飲まれずに追えるようにしました。
+          </p>
           <div className="hero-actions">
             <a className="button" href="#cannot">
-              困りごとから探す
+              今の状態から探す
             </a>
-            <Link className="text-link" href="/articles/f-01-what-is">
-              まず意味を読む
-            </Link>
+            {first ? (
+              <Link className="text-link" href={`/articles/${first.slug}`}>
+                本当にあるのか読む
+              </Link>
+            ) : null}
           </div>
-          <div className="hero-chips" aria-label="このサイトで扱う入口">
-            <span>脳イキ とは</span>
-            <span>できない理由</span>
-            <span>安全性</span>
+          <div className="hero-chips" aria-label="よくある検索のきっかけ">
+            <span>何も感じない</span>
+            <span>怖くなった</span>
+            <span>途中で止まる</span>
           </div>
         </div>
         <figure className="hero-media">
@@ -39,99 +46,101 @@ export default function Home() {
       </section>
 
       <section className="statement-panel">
-        <p>「本当にあるの？」と「自分にも起きるの？」は、別の問いです。</p>
-        <h2>体験談を追うほど分からなくなる前に、今の反応を見てみましょう。</h2>
+        <p>信じたい気持ちと、疑う気持ちが同時にある。</p>
+        <h2>そのままで大丈夫です。まずは「起きた人の話」と「自分に起きるか」を分けて読みます。</h2>
       </section>
 
-      <section className="trust-ribbon" aria-label="このサイトで読めること">
+      <section className="trust-ribbon" aria-label="このサイトの読み方">
         <div>
-          <span>REAL?</span>
-          <strong>本当にあるのか知りたい</strong>
-          <p>コメント欄や体験談を読むほど、信じたい気持ちと疑う気持ちが混ざる時に。</p>
+          <span>01</span>
+          <strong>強い言い切りを避ける</strong>
+          <p>「できる」「危ない」と急がせず、報告されている話と未確定の話を分けます。</p>
         </div>
         <div>
-          <span>NO FEEL</span>
-          <strong>何も感じない</strong>
-          <p>何度聞いても変化がない。自分だけ鈍いのかも、と思った時に。</p>
+          <span>02</span>
+          <strong>昨日の場面から読む</strong>
+          <p>何も感じない、怖い、止まる。検索した理由に近いところから入れます。</p>
         </div>
         <div>
-          <span>FEAR</span>
-          <strong>怖くなった・不安が残る</strong>
-          <p>ムズムズする、眠れない、戻ったか不安。そんな時は、続ける前にまず止まりましょう。</p>
+          <span>03</span>
+          <strong>無理に続けない</strong>
+          <p>不快感や生活への影響がある時は、コツ探しより中断を先にします。</p>
         </div>
       </section>
 
-      <section className="notice-band">
-        <strong>18歳以上向け</strong>
-        <span>本サイトは医療診断・治療・効果保証を提供しません。痛み、不安、強い苦痛がある場合は閲覧や試行を中断してください。</span>
-      </section>
-
-      <section id="cannot" className="section">
+      <section className="section" id="start">
         <div className="section-head">
-          <h2>いま困っていることから探す</h2>
-          <p>「何も感じない」「集中できない」「怖い」など、検索されやすい長尾キーワードを入口にしています。</p>
+          <p className="kicker">最初に読みたい人へ</p>
+          <h2>「本当なの？」が頭から離れない時に。</h2>
+          <p>
+            コメント欄を見るほど、自分だけ置いていかれた感じがする。そんな時は、成功談を増やすより、まず問いを小さく分けた方が読みやすくなります。
+          </p>
         </div>
-        <div className="problem-grid">
-          {["F05", "F06", "F07", "F08", "F11", "F12"].map((id) => articleCard(getArticleById(id)))}
-        </div>
+        <div className="article-grid">{byGroup["はじめに"].map(articleCard)}</div>
       </section>
 
-      <section className="reason-band" aria-labelledby="reason-title">
-        <div className="section-head">
-          <h2 id="reason-title">「できない」の中身を見る</h2>
-          <p>何も起きないのか、少し来るけど止まるのか、怖さが先に出るのか。同じ「効かない」でも、次に読む記事は変わります。</p>
-        </div>
-        <div className="reason-grid">
-          <div>
-            <span>01</span>
-            <h3>言葉の意味</h3>
-            <p>言葉の使われ方と、誤解されやすいポイントを先に見ていきます。</p>
-          </div>
-          <div>
-            <span>02</span>
-            <h3>つまずき方</h3>
-            <p>感じない、怖い、途中で止まるなど、検索される悩みを別々の記事へ分けます。</p>
-          </div>
-          <div>
-            <span>03</span>
-            <h3>安全ライン</h3>
-            <p>安全を断定せず、不安や苦痛が強い場合の中断・相談を優先します。</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="start" className="feature-row">
-        <Image src="/images/notebook-sun.jpg" alt="日差しの入る机に開いたノートが置かれている" width={1200} height={900} />
+      <section className="feature-row">
+        <Image src="/images/notebook-sun.jpg" alt="窓辺のノートとやわらかい日差し" width={1000} height={750} />
         <div>
-          <h2>まず読みたい3本</h2>
-          <div className="stacked-links">
-            {["F01", "F02", "F04"].map((id) => articleCard(getArticleById(id)))}
-          </div>
+          <p className="kicker">自分を責める前に</p>
+          <h2>効かなかった日は、失敗の日とは限りません。</h2>
+          <p>
+            音量、体調、眠気、怖さ、期待しすぎ。あとから見ると、小さな要因が重なっていたと分かることがあります。ここでは「できない人」と決めつけず、止まった場所を見る読み方に寄せています。
+          </p>
+          {hub ? (
+            <Link className="button" href={`/articles/${hub.slug}`}>
+              止まった場所を見る
+            </Link>
+          ) : null}
         </div>
+      </section>
+
+      <section className="section" id="cannot">
+        <div className="section-head">
+          <p className="kicker">今の状態から選ぶ</p>
+          <h2>「できない」の中身は、人によってかなり違います。</h2>
+          <p>
+            何もないのか、少しあるのに快くないのか、怖さで止まるのか。似て見える悩みでも、読む順番は変わります。
+          </p>
+        </div>
+        <div className="article-grid">{byGroup["うまくいかない時"].map(articleCard)}</div>
       </section>
 
       <section className="section">
         <div className="section-head">
-          <h2>悩みから探す</h2>
-          <p>「何も感じない」「怖い」「途中で止まる」など、今の状態にいちばん近いところからどうぞ。</p>
+          <p className="kicker">状態別</p>
+          <h2>「自分はどれだろう」と迷う時に。</h2>
+          <p>ひとつに決めなくても大丈夫です。複数に当てはまる人もいます。</p>
         </div>
-        {categoryOrder.map((group) => (
-          <div className="category-block" key={group}>
-            <h3>{group}</h3>
-            <div className="article-grid">{byGroup[group].map(articleCard)}</div>
-          </div>
-        ))}
+        <div className="article-grid">{byGroup["状態別"].map(articleCard)}</div>
       </section>
 
       <section className="evidence-strip">
-        <Image src="/images/study-window.jpg" alt="窓辺の明るい学習机に本とノートが並んでいる" width={1200} height={900} />
         <div>
-          <h2>できた人の話だけで、自分を責めない</h2>
-          <p>体験談は参考になります。でも、成功保証ではありません。できない人を責める言葉や、強すぎるコツから少し距離を置いて、今の反応を見ます。</p>
+          <p className="kicker">強く言えないことは、強く書かない</p>
+          <h2>参考資料は、主張の強さを決めるために見ます。</h2>
+          <p>
+            論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。言えること、まだ言いにくいこと、体験談に留まることを分けて更新します。
+          </p>
           <Link className="text-link" href="/evidence">
-            判断のしかたを見る
+            参考資料を見る
           </Link>
         </div>
+        <Image src="/images/study-window.jpg" alt="窓辺の机で資料を読む静かな作業風景" width={1000} height={750} />
+      </section>
+
+      <section className="section">
+        <div className="section-head">
+          <p className="kicker">怖さや不安がある時</p>
+          <h2>続けるか迷ったら、先に止まる目安を見てください。</h2>
+          <p>不快感、眠れなさ、日常への影響がある時は、うまくなる方法を探す前に距離を置く方が合う場合があります。</p>
+        </div>
+        <div className="article-grid">{byGroup["安全性"].map(articleCard)}</div>
+        {safety ? (
+          <Link className="button secondary-button" href={`/articles/${safety.slug}`}>
+            安全性の記事を読む
+          </Link>
+        ) : null}
       </section>
 
       {guideCta()}

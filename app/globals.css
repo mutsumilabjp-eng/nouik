@@ -48,6 +48,7 @@ a {
 
 img {
   max-width: 100%;
+  height: auto;
 }
 
 .site-header {
@@ -93,20 +94,20 @@ img {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1.14fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
   align-items: center;
-  gap: 54px;
+  gap: 48px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 76px 32px 36px;
+  padding: 62px 32px 34px;
 }
 
 .hero h1 {
-  max-width: 9em;
+  max-width: 12em;
   margin: 10px 0 18px;
   font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
-  font-size: clamp(42px, 7vw, 82px);
-  line-height: 1.08;
+  font-size: clamp(36px, 4.9vw, 58px);
+  line-height: 1.14;
   font-weight: 700;
 }
 
@@ -134,6 +135,7 @@ img {
 
 .hero-media img {
   aspect-ratio: 5 / 4;
+  max-height: 640px;
   border-radius: 46% 46% 28px 28px;
 }
 
@@ -517,40 +519,35 @@ h2 {
 }
 
 .article-meta {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 20px 0 24px;
-}
-
-.article-meta span {
-  padding: 5px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  margin: 8px 0 30px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
-.medical-note,
+.article > p:not(.kicker):not(.article-meta),
+.article li,
+.static-page p {
+  font-size: 17px;
+}
+
+.article > h2,
+.source-note h2 {
+  margin-top: 42px;
+  font-size: 28px;
+}
+
+.article-note,
 .source-note {
   padding: 18px 20px;
-  margin: 24px 0;
+  margin: 42px 0 0;
   border-left: 4px solid var(--teal);
   background: var(--white);
   border-radius: 18px;
 }
 
-.article-body p,
-.article-body li,
-.static-page p {
-  font-size: 17px;
-}
-
-.article-body h2,
-.related h2,
-.source-note h2 {
-  margin-top: 42px;
-  font-size: 28px;
+.article-note p {
+  margin-bottom: 0;
+  color: var(--muted);
 }
 
 .site-footer {
@@ -604,12 +601,30 @@ h2 {
   }
 
   .hero {
-    padding-top: 64px;
+    gap: 26px;
+    padding-top: 28px;
+    padding-bottom: 28px;
   }
 
   .hero h1 {
-    font-size: clamp(38px, 11.5vw, 48px);
+    max-width: 100%;
+    font-size: clamp(32px, 9.2vw, 40px);
     line-height: 1.16;
+  }
+
+  .hero-copy > p:not(.kicker) {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    margin-top: 20px;
+  }
+
+  .hero-media img {
+    aspect-ratio: 16 / 11;
+    max-height: 220px;
+    border-radius: 28px;
   }
 
   .trust-ribbon {
@@ -631,8 +646,7 @@ h2 {
   }
 
   .hero-media figcaption {
-    position: static;
-    margin-top: 12px;
+    display: none;
   }
 
   .age-gate-panel {

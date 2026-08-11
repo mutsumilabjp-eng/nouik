@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | 脳イキ研究ノート",
   },
   description:
-    "脳イキ音声やASMRで反応する人と何も起きない人の差を、感じない・怖い・途中で止まる状態別に見ていく情報サイトです。",
+    "脳イキ音声やASMRで何も感じない、怖くなる、途中で止まる人へ。体験談に飲まれず、今の状態に近い記事から読めるサイトです。",
   robots: {
     index: false,
     follow: false,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "脳イキ研究ノート",
-    description: "何も感じない、怖くなる、途中で止まる。無理に進める前に、今の状態に近い記事から読めます。",
+    description: "コメント欄は反応しているのに、自分には何も起きない。そんな時に、今の状態に近い記事から読めます。",
     images: ["/images/hero-desk.jpg"],
     locale: "ja_JP",
     type: "website",
@@ -43,9 +43,9 @@ export default function RootLayout({
             </Link>
             <nav aria-label="主要ナビゲーション">
               <Link href="/#start">はじめに</Link>
-              <Link href="/#cannot">できない理由</Link>
-              <Link href="/articles/f-09-safety">安全性</Link>
-              <Link href="/evidence">方針</Link>
+            <Link href="/#cannot">うまくいかない時</Link>
+            <Link href="/articles/f-09-safety">安全性</Link>
+            <Link href="/evidence">参考資料</Link>
               <Link href="/guide">記録ガイド</Link>
             </nav>
           </header>
@@ -57,7 +57,7 @@ export default function RootLayout({
             </div>
             <div className="footer-links">
               <Link href="/about">このサイトについて</Link>
-              <Link href="/evidence">出典・確認方針</Link>
+              <Link href="/evidence">参考資料</Link>
               <Link href="/disclaimer">免責事項</Link>
               <Link href="/privacy">プライバシー</Link>
               <Link href="/contact">問い合わせ</Link>
