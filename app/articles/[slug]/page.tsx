@@ -38,7 +38,7 @@ export default async function ArticlePage({ params }: Params) {
   const articles = getArticles();
   const idToUrl = Object.fromEntries(articles.map((item) => [item.f_id, articleUrl(item)]));
   const related = article.internal_links.map((id) => articles.find((item) => item.f_id === id)).filter(Boolean);
-  const body = article.body.replace(article.title.replace(/\(.+\)/, ""), "").trim();
+  const body = article.body.replace(/^# .*\n+/, "").trim();
 
   return (
     <main className="article-shell">

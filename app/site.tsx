@@ -1,7 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { rawArticles } from "./content-data";
 
 export type Article = {
   f_id: string;
@@ -55,12 +54,9 @@ function slugFor(file: string) {
 }
 
 export function getArticles(): Article[] {
-  const root = process.cwd();
-  return fs
-    .readdirSync(root)
-    .filter((file) => /^F\d+_.*\.md$/.test(file))
-    .map((file) => {
-      const { meta, body } = parseFrontMatter(fs.readFileSync(path.join(root, file), "utf8"), file);
+  return rawArticles
+    .map(([file, raw]) => {
+      const { meta, body } = parseFrontMatter(raw, file);
       const article = meta as unknown as Omit<Article, "body" | "file" | "slug" | "group">;
       return {
         ...article,
