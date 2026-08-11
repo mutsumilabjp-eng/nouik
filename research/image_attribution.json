@@ -1,0 +1,38 @@
+[
+  {
+    "file": "public/images/hero-desk.jpg",
+    "pexels_id": "37440933",
+    "photographer": "Aurelie Nateba Studio",
+    "source": "Pexels",
+    "usage": "top hero",
+    "license_note": "Pexels API. Commercial use and modification allowed under Pexels license; attribution optional.",
+    "retrieved_on": "2026-08-11"
+  },
+  {
+    "file": "public/images/notebook-sun.jpg",
+    "pexels_id": "7582013",
+    "photographer": "Sevde Sen",
+    "source": "Pexels",
+    "usage": "start section",
+    "license_note": "Pexels API. Commercial use and modification allowed under Pexels license; attribution optional.",
+    "retrieved_on": "2026-08-11"
+  },
+  {
+    "file": "public/images/study-window.jpg",
+    "pexels_id": "9871139",
+    "photographer": "Ron Lach",
+    "source": "Pexels",
+    "usage": "evidence section",
+    "license_note": "Pexels API. Commercial use and modification allowed under Pexels license; attribution optional.",
+    "retrieved_on": "2026-08-11"
+  },
+  {
+    "file": "public/images/blue-pen-note.jpg",
+    "pexels_id": "36598331",
+    "photographer": "Taiye Salawu",
+    "source": "Pexels",
+    "usage": "category visual",
+    "license_note": "Pexels API. Commercial use and modification allowed under Pexels license; attribution optional.",
+    "retrieved_on": "2026-08-11"
+  }
+]
