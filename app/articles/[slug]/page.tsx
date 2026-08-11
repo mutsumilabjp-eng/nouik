@@ -53,24 +53,24 @@ export default async function ArticlePage({ params }: Params) {
         </p>
         <h1>{article.title}</h1>
         <div className="article-meta">
-          <span>無料記事</span>
+          <span>{article.group}</span>
           <span>更新日: {article.last_updated}</span>
-          <span>一般情報</span>
+          <span>18歳以上向け</span>
         </div>
         <aside className="medical-note">
           <strong>先に確認してください</strong>
-          <p>「脳イキ」は医学的な正式名称ではありません。この記事は診断・治療・効果保証ではなく、個人差のある体験を整理するための読み物です。</p>
+          <p>この記事は診断・治療・効果保証ではなく、個人差のある体験を見直すための読み物です。痛み、不安、強い苦痛がある場合は閲覧や試行を中断してください。</p>
         </aside>
         <div className="article-body">{markdownToNodes(body, idToUrl)}</div>
         <section className="related">
-          <h2>関連する無料記事</h2>
+          <h2>関連する記事</h2>
           <div className="article-grid">{related.length ? related.map(articleCard) : articleCard(articles.find((item) => item.f_id === "F13")!)}</div>
         </section>
         <section className="source-note">
-          <h2>出典と確認状況</h2>
-          <p>この記事は一般情報として整理したものです。根拠が確立していない表現は断定せず、科学的根拠を扱う記事は出典確認が揃った内容だけを掲載します。</p>
+          <h2>強い言葉に流されないために</h2>
+          <p>体験談やコツは参考になりますが、成功保証ではありません。この記事では、できなかった人を責める言い方や、根拠のない断定を避けています。</p>
           <Link className="text-link" href="/evidence">
-            確認方針を見る
+            判断のしかたを見る
           </Link>
         </section>
         {article.f_id === "F09" ? null : guideCta()}

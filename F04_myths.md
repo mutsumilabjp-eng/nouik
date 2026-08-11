@@ -4,7 +4,7 @@ title: "脳イキに関するよくある俗説の検証"
 meta_description: "脳イキについて言われがちな俗説(誰でもできる、特殊体質、危険な行為、催眠と同じ等)を1つずつ、現時点で言える範囲で検証します。"
 target_keyword: "脳イキ 嘘 都市伝説"
 category: "6. 俗説・用語検証"
-tier: "無料"
+tier: "記事"
 internal_links: ["F01", "F02", "F09", "F10"]
 version: "0.1.0"
 last_updated: "2026-08-11"

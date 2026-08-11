@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: data.title,
     description: data.description,
     alternates: {
-      canonical: `/${page}/`,
+      canonical: `/${page}`,
     },
   };
 }

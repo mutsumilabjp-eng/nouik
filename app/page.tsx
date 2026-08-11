@@ -9,15 +9,15 @@ export default function Home() {
     <main>
       <section className="hero">
         <div className="hero-copy">
-          <p className="kicker">18歳以上向け / 医学用語ではありません</p>
+          <p className="kicker">音声を聞いたあと、検索しているあなたへ</p>
           <h1>
-            脳イキを、
+            効いた人ばかりに
             <br />
-            あおらず
+            見えるのに、
             <br />
-            整理する。
+            自分には何も起きない。
           </h1>
-          <p>できる・できないの前に、言葉の意味、安全性、つまずき方を静かに確認する無料ノートです。</p>
+          <p>それ、焦りますよね。脳イキ音声やASMRを試しても何も感じない。少し反応しても怖くなる。途中で冷める。ここでは、体験談だけでは見えない反応の分かれ目を一緒に見ていきます。</p>
           <div className="hero-actions">
             <a className="button" href="#cannot">
               困りごとから探す
@@ -34,35 +34,35 @@ export default function Home() {
         </div>
         <figure className="hero-media">
           <Image src="/images/hero-desk.jpg" alt="夜の静かな机に開かれたノートとランプが置かれている" width={1200} height={900} priority />
-          <figcaption>静かに読み、必要なところだけ持ち帰るための無料ノート。</figcaption>
+          <figcaption>効いた人の話だけでは、自分の反応は見えてきません。</figcaption>
         </figure>
       </section>
 
       <section className="statement-panel">
-        <p>派手な成功談より、まずは現在地。</p>
-        <h2>「なぜうまくいかないのか」を、言葉にできる場所を目指しています。</h2>
+        <p>「本当にあるの？」と「自分にも起きるの？」は、別の問いです。</p>
+        <h2>体験談を追うほど分からなくなる前に、今の反応を見てみましょう。</h2>
       </section>
 
-      <section className="trust-ribbon" aria-label="編集方針">
+      <section className="trust-ribbon" aria-label="このサイトで読めること">
         <div>
-          <span>FREE</span>
-          <strong>無料範囲を明確に</strong>
-          <p>理由と考え方まで。手順・記録表・比較フローは有料側に分けます。</p>
+          <span>REAL?</span>
+          <strong>本当にあるのか知りたい</strong>
+          <p>コメント欄や体験談を読むほど、信じたい気持ちと疑う気持ちが混ざる時に。</p>
         </div>
         <div>
-          <span>CHECK</span>
-          <strong>論文と出典を確認</strong>
-          <p>未確認の強い主張は載せず、F03は根拠確認が揃うまで非公開です。</p>
+          <span>NO FEEL</span>
+          <strong>何も感じない</strong>
+          <p>何度聞いても変化がない。自分だけ鈍いのかも、と思った時に。</p>
         </div>
         <div>
-          <span>SAFE</span>
-          <strong>中断と相談を優先</strong>
-          <p>不安・痛み・苦痛がある場合は進めない、という前提を先に置きます。</p>
+          <span>FEAR</span>
+          <strong>怖くなった・不安が残る</strong>
+          <p>ムズムズする、眠れない、戻ったか不安。そんな時は、続ける前にまず止まりましょう。</p>
         </div>
       </section>
 
       <section className="notice-band">
-        <strong>閲覧前の確認</strong>
+        <strong>18歳以上向け</strong>
         <span>本サイトは医療診断・治療・効果保証を提供しません。痛み、不安、強い苦痛がある場合は閲覧や試行を中断してください。</span>
       </section>
 
@@ -78,14 +78,14 @@ export default function Home() {
 
       <section className="reason-band" aria-labelledby="reason-title">
         <div className="section-head">
-          <h2 id="reason-title">この無料サイトで分けること</h2>
-          <p>検索で混ざりやすい話題を、読み始める前に確認しやすい形で切り分けます。</p>
+          <h2 id="reason-title">「できない」の中身を見る</h2>
+          <p>何も起きないのか、少し来るけど止まるのか、怖さが先に出るのか。同じ「効かない」でも、次に読む記事は変わります。</p>
         </div>
         <div className="reason-grid">
           <div>
             <span>01</span>
             <h3>言葉の意味</h3>
-            <p>医学用語ではない前提を先に置き、俗称としての使われ方を整理します。</p>
+            <p>言葉の使われ方と、誤解されやすいポイントを先に見ていきます。</p>
           </div>
           <div>
             <span>02</span>
@@ -103,7 +103,7 @@ export default function Home() {
       <section id="start" className="feature-row">
         <Image src="/images/notebook-sun.jpg" alt="日差しの入る机に開いたノートが置かれている" width={1200} height={900} />
         <div>
-          <h2>初めて読むなら、この3本から</h2>
+          <h2>まず読みたい3本</h2>
           <div className="stacked-links">
             {["F01", "F02", "F04"].map((id) => articleCard(getArticleById(id)))}
           </div>
@@ -112,8 +112,8 @@ export default function Home() {
 
       <section className="section">
         <div className="section-head">
-          <h2>全記事一覧</h2>
-          <p>特化サイトとして、近い悩みの記事同士を内部リンクでつなぎます。</p>
+          <h2>悩みから探す</h2>
+          <p>「何も感じない」「怖い」「途中で止まる」など、今の状態にいちばん近いところからどうぞ。</p>
         </div>
         {categoryOrder.map((group) => (
           <div className="category-block" key={group}>
@@ -126,10 +126,10 @@ export default function Home() {
       <section className="evidence-strip">
         <Image src="/images/study-window.jpg" alt="窓辺の明るい学習机に本とノートが並んでいる" width={1200} height={900} />
         <div>
-          <h2>出典が弱いものは、強く言わない</h2>
-          <p>論文や公的情報は確認中です。現時点では「研究で確立」とは書かず、報告・可能性・未確立を分けて表示します。</p>
+          <h2>できた人の話だけで、自分を責めない</h2>
+          <p>体験談は参考になります。でも、成功保証ではありません。できない人を責める言葉や、強すぎるコツから少し距離を置いて、今の反応を見ます。</p>
           <Link className="text-link" href="/evidence">
-            出典・確認方針を見る
+            判断のしかたを見る
           </Link>
         </div>
       </section>
@@ -145,7 +145,7 @@ export default function Home() {
             "@type": "WebSite",
             name: "脳イキ研究ノート",
             description:
-              "脳イキという通称について、医学用語ではない前提から、できない理由・安全性・現在地の整理を行う無料情報サイトです。",
+              "脳イキ音声やASMRで反応する人と何も起きない人の差を、感じない・怖い・途中で止まる状態別に見ていく情報サイトです。",
             inLanguage: "ja",
           }),
         }}

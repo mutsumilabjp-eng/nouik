@@ -106,12 +106,12 @@ export function guideCta() {
   return (
     <section className="guide-cta" aria-labelledby="guide-title">
       <div>
-        <p className="kicker">次の段階へ</p>
-        <h2 id="guide-title">理由が見えたら、次は条件を整理する</h2>
-        <p>無料記事では「なぜ起きるのか」までを扱います。自分の状態を記録し、条件を比較しながら読み解く手順は、完全ガイド側で扱います。</p>
+        <p className="kicker">次に見ること</p>
+        <h2 id="guide-title">何が起きなかったのか、残しておく</h2>
+        <p>何も感じない日、少し来た日、怖くなった日。あとで見返せる形にしておくと、自分の反応を追いやすくなります。</p>
       </div>
       <Link className="button" href="/guide">
-        完全ガイドを見る
+        記録のしかたを見る
       </Link>
     </section>
   );
