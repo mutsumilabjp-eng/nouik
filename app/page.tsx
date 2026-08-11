@@ -53,8 +53,8 @@ export default function Home() {
       <section className="trust-ribbon" aria-label="このサイトの読み方">
         <div>
           <span>01</span>
-          <strong>強い言い切りを避ける</strong>
-          <p>「できる」「危ない」と急がせず、報告されている話と未確定の話を分けます。</p>
+          <strong>できる人の声だけで決めない</strong>
+          <p>コメント欄が熱いほど、自分だけ遅れている気がします。まず、その見え方から離れます。</p>
         </div>
         <div>
           <span>02</span>
@@ -117,10 +117,10 @@ export default function Home() {
 
       <section className="evidence-strip">
         <div>
-          <p className="kicker">強く言えないことは、強く書かない</p>
-          <h2>参考資料は、主張の強さを決めるために見ます。</h2>
+          <p className="kicker">気になる人へ</p>
+          <h2>研究で分かることと、体験談に残ることがあります。</h2>
           <p>
-            論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。言えること、まだ言いにくいこと、体験談に留まることを分けて更新します。
+            論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。気になる人が元資料まで戻れるように、確認した資料をまとめています。
           </p>
           <Link className="text-link" href="/evidence">
             参考資料を見る

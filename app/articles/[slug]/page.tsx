@@ -73,6 +73,25 @@ export default async function ArticlePage({ params }: Params) {
       ) : null}
 
       {guideCta()}
+
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: article.title,
+            description: article.meta_description,
+            dateModified: article.last_updated,
+            inLanguage: "ja",
+            isPartOf: {
+              "@type": "WebSite",
+              name: "脳イキ研究ノート",
+            },
+          }),
+        }}
+      />
     </main>
   );
 }

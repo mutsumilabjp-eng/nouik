@@ -12,3 +12,11 @@
 記事は「なぜそう見えるか」までで止め、18問判定・検証プロトコルなどの実行部分は書かない。導線は、検索語や管理用語ではなく、読者の状態に近い記事へ戻す。
 
 断定表現(治る/必ず/絶対/100%など)は使わない。注意書きは言い訳のように冒頭へ出さず、必要な場所で自然な言葉にする。
+
+## 公開直前チェック
+
+- `app/layout.tsx` の `metadataBase` を `https://example.com` から実ドメインへ変更する。
+- `app/sitemap.ts` のURLも実ドメインへ変更する。
+- `app/layout.tsx` の `robots` を `index: true, follow: true` に切り替える。
+- `app/robots.ts` の `Disallow: /` を解除する。
+- 上記4点は同じコミットで変更し、公開前に `npm run check && npm run lint && npm run build` を通す。
