@@ -55,7 +55,7 @@ export default async function ArticlePage({ params }: Params) {
         <div className="article-meta">
           <span>無料記事</span>
           <span>更新日: {article.last_updated}</span>
-          <span>公開前確認版</span>
+          <span>一般情報</span>
         </div>
         <aside className="medical-note">
           <strong>先に確認してください</strong>
@@ -68,8 +68,8 @@ export default async function ArticlePage({ params }: Params) {
         </section>
         <section className="source-note">
           <h2>出典と確認状況</h2>
-          <p>この記事は公開前ファクトチェック中です。根拠が確立していない表現は断定せず、科学的根拠を扱う記事は出典確認が揃うまで公開しません。</p>
-          <Link className="text-link" href="/evidence/">
+          <p>この記事は一般情報として整理したものです。根拠が確立していない表現は断定せず、科学的根拠を扱う記事は出典確認が揃った内容だけを掲載します。</p>
+          <Link className="text-link" href="/evidence">
             確認方針を見る
           </Link>
         </section>

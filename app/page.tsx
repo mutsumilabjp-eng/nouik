@@ -22,7 +22,7 @@ export default function Home() {
             <a className="button" href="#cannot">
               困りごとから探す
             </a>
-            <Link className="text-link" href="/articles/f-01-what-is/">
+            <Link className="text-link" href="/articles/f-01-what-is">
               まず意味を読む
             </Link>
           </div>
@@ -43,7 +43,7 @@ export default function Home() {
         <h2>「なぜうまくいかないのか」を、言葉にできる場所を目指しています。</h2>
       </section>
 
-      <section className="trust-ribbon" aria-label="公開前の編集方針">
+      <section className="trust-ribbon" aria-label="編集方針">
         <div>
           <span>FREE</span>
           <strong>無料範囲を明確に</strong>
@@ -62,8 +62,8 @@ export default function Home() {
       </section>
 
       <section className="notice-band">
-        <strong>公開前確認中</strong>
-        <span>本サイトは医療診断・治療・効果保証を提供しません。F03(科学的根拠と論文)は、出典確認が揃うまで公開しません。</span>
+        <strong>閲覧前の確認</strong>
+        <span>本サイトは医療診断・治療・効果保証を提供しません。痛み、不安、強い苦痛がある場合は閲覧や試行を中断してください。</span>
       </section>
 
       <section id="cannot" className="section">
@@ -79,7 +79,7 @@ export default function Home() {
       <section className="reason-band" aria-labelledby="reason-title">
         <div className="section-head">
           <h2 id="reason-title">この無料サイトで分けること</h2>
-          <p>検索で混ざりやすい話題を、公開前でも確認できる形で切り分けます。</p>
+          <p>検索で混ざりやすい話題を、読み始める前に確認しやすい形で切り分けます。</p>
         </div>
         <div className="reason-grid">
           <div>
@@ -128,7 +128,7 @@ export default function Home() {
         <div>
           <h2>出典が弱いものは、強く言わない</h2>
           <p>論文や公的情報は確認中です。現時点では「研究で確立」とは書かず、報告・可能性・未確立を分けて表示します。</p>
-          <Link className="text-link" href="/evidence/">
+          <Link className="text-link" href="/evidence">
             出典・確認方針を見る
           </Link>
         </div>

@@ -271,6 +271,52 @@ img {
   transform: translateY(1px);
 }
 
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(36, 52, 58, 0.62);
+  backdrop-filter: blur(14px);
+}
+
+.age-gate-panel {
+  width: min(100%, 280px);
+  min-width: 0;
+  max-width: 280px;
+  overflow: hidden;
+  padding: 34px;
+  border: 1px solid rgba(201, 225, 232, 0.9);
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(232, 245, 248, 0.98)),
+    var(--white);
+  box-shadow: 0 28px 70px rgba(7, 80, 93, 0.24);
+}
+
+.age-gate-panel h2 {
+  margin-bottom: 12px;
+  font-size: clamp(28px, 5vw, 42px);
+  overflow-wrap: anywhere;
+}
+
+.age-gate-panel p:not(.kicker) {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.age-gate-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 26px;
+}
+
 .notice-band {
   display: flex;
   gap: 18px;
@@ -587,5 +633,13 @@ h2 {
   .hero-media figcaption {
     position: static;
     margin-top: 12px;
+  }
+
+  .age-gate-panel {
+    padding: 24px 18px;
+  }
+
+  .age-gate-panel h2 {
+    font-size: 26px;
   }
 }

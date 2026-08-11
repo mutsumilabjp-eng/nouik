@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import AgeGate from "./age-gate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <AgeGate />
         <header className="site-header">
           <Link className="brand" href="/">
             脳イキ研究ノート
@@ -39,9 +41,9 @@ export default function RootLayout({
           <nav aria-label="主要ナビゲーション">
             <Link href="/#start">はじめに</Link>
             <Link href="/#cannot">できない理由</Link>
-            <Link href="/articles/f-09-safety/">安全性</Link>
-            <Link href="/evidence/">方針</Link>
-            <Link href="/guide/">完全ガイド</Link>
+            <Link href="/articles/f-09-safety">安全性</Link>
+            <Link href="/evidence">方針</Link>
+            <Link href="/guide">完全ガイド</Link>
           </nav>
         </header>
         {children}
@@ -51,11 +53,11 @@ export default function RootLayout({
             <p>医学用語ではない通称を、断定を避けながら整理する無料情報サイトです。</p>
           </div>
           <div className="footer-links">
-            <Link href="/about/">このサイトについて</Link>
-            <Link href="/evidence/">出典・確認方針</Link>
-            <Link href="/disclaimer/">免責事項</Link>
-            <Link href="/privacy/">プライバシー</Link>
-            <Link href="/contact/">問い合わせ</Link>
+            <Link href="/about">このサイトについて</Link>
+            <Link href="/evidence">出典・確認方針</Link>
+            <Link href="/disclaimer">免責事項</Link>
+            <Link href="/privacy">プライバシー</Link>
+            <Link href="/contact">問い合わせ</Link>
           </div>
         </footer>
       </body>

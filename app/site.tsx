@@ -89,7 +89,7 @@ export function getArticlesByGroup() {
 }
 
 export function articleUrl(article: Article) {
-  return `/articles/${article.slug}/`;
+  return `/articles/${article.slug}`;
 }
 
 export function articleCard(article: Article): ReactNode {
@@ -110,7 +110,7 @@ export function guideCta() {
         <h2 id="guide-title">理由が見えたら、次は条件を整理する</h2>
         <p>無料記事では「なぜ起きるのか」までを扱います。自分の状態を記録し、条件を比較しながら読み解く手順は、完全ガイド側で扱います。</p>
       </div>
-      <Link className="button" href="/guide/">
+      <Link className="button" href="/guide">
         完全ガイドを見る
       </Link>
     </section>
