@@ -10,7 +10,13 @@ export default function Home() {
       <section className="hero">
         <div className="hero-copy">
           <p className="kicker">18歳以上向け / 医学用語ではありません</p>
-          <h1>脳イキを、あおらず整理する。</h1>
+          <h1>
+            脳イキを、
+            <br />
+            あおらず
+            <br />
+            整理する。
+          </h1>
           <p>できる・できないの前に、言葉の意味、安全性、つまずき方を静かに確認する無料ノートです。</p>
           <div className="hero-actions">
             <a className="button" href="#cannot">
@@ -20,10 +26,39 @@ export default function Home() {
               まず意味を読む
             </Link>
           </div>
+          <div className="hero-chips" aria-label="このサイトで扱う入口">
+            <span>脳イキ とは</span>
+            <span>できない理由</span>
+            <span>安全性</span>
+          </div>
         </div>
         <figure className="hero-media">
           <Image src="/images/hero-desk.jpg" alt="夜の静かな机に開かれたノートとランプが置かれている" width={1200} height={900} priority />
+          <figcaption>静かに読み、必要なところだけ持ち帰るための無料ノート。</figcaption>
         </figure>
+      </section>
+
+      <section className="statement-panel">
+        <p>派手な成功談より、まずは現在地。</p>
+        <h2>「なぜうまくいかないのか」を、言葉にできる場所を目指しています。</h2>
+      </section>
+
+      <section className="trust-ribbon" aria-label="公開前の編集方針">
+        <div>
+          <span>FREE</span>
+          <strong>無料範囲を明確に</strong>
+          <p>理由と考え方まで。手順・記録表・比較フローは有料側に分けます。</p>
+        </div>
+        <div>
+          <span>CHECK</span>
+          <strong>論文と出典を確認</strong>
+          <p>未確認の強い主張は載せず、F03は根拠確認が揃うまで非公開です。</p>
+        </div>
+        <div>
+          <span>SAFE</span>
+          <strong>中断と相談を優先</strong>
+          <p>不安・痛み・苦痛がある場合は進めない、という前提を先に置きます。</p>
+        </div>
       </section>
 
       <section className="notice-band">
@@ -38,6 +73,30 @@ export default function Home() {
         </div>
         <div className="problem-grid">
           {["F05", "F06", "F07", "F08", "F11", "F12"].map((id) => articleCard(getArticleById(id)))}
+        </div>
+      </section>
+
+      <section className="reason-band" aria-labelledby="reason-title">
+        <div className="section-head">
+          <h2 id="reason-title">この無料サイトで分けること</h2>
+          <p>検索で混ざりやすい話題を、公開前でも確認できる形で切り分けます。</p>
+        </div>
+        <div className="reason-grid">
+          <div>
+            <span>01</span>
+            <h3>言葉の意味</h3>
+            <p>医学用語ではない前提を先に置き、俗称としての使われ方を整理します。</p>
+          </div>
+          <div>
+            <span>02</span>
+            <h3>つまずき方</h3>
+            <p>感じない、怖い、途中で止まるなど、検索される悩みを別々の記事へ分けます。</p>
+          </div>
+          <div>
+            <span>03</span>
+            <h3>安全ライン</h3>
+            <p>安全を断定せず、不安や苦痛が強い場合の中断・相談を優先します。</p>
+          </div>
         </div>
       </section>
 
