@@ -4,7 +4,7 @@ import AgeGate from "./age-gate";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"),
+  metadataBase: new URL("https://nouiki-lab.com"),
   title: {
     default: "脳イキ研究ノート",
     template: "%s | 脳イキ研究ノート",
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   description:
     "脳イキ音声やASMRで何も感じない、怖くなる、途中で止まる人へ。できた人の話だけでは分からない、今の状態に近い記事を探せるサイトです。",
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   alternates: {
     canonical: "/",
