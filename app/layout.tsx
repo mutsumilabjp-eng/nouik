@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import AgeGate from "./age-gate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,7 +33,6 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <AgeGate />
         <div id="site-shell">
           <header className="site-header">
             <a className="brand" href="/">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AgeGate from "./age-gate";
 import { articleCard, getArticleById, getArticlesByGroup, guideCta } from "./site";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
 
   return (
     <main>
+      <AgeGate />
       <section className="hero">
         <div className="hero-copy">
           <p className="kicker">昨日、脳イキ音声を止めたあとに検索したあなたへ</p>
