@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import AgeGate from "./age-gate";
 import "./globals.css";
 
@@ -38,15 +37,15 @@ export default function RootLayout({
         <AgeGate />
         <div id="site-shell">
           <header className="site-header">
-            <Link className="brand" href="/">
+            <a className="brand" href="/">
               脳イキ研究ノート
-            </Link>
+            </a>
             <nav aria-label="主要ナビゲーション">
-              <Link href="/#start">はじめに</Link>
-            <Link href="/#cannot">うまくいかない時</Link>
-            <Link href="/articles/f-09-safety">安全性</Link>
-        <Link href="/evidence">根拠</Link>
-              <Link href="/guide">記録ガイド</Link>
+              <a href="/#start">はじめに</a>
+              <a href="/#cannot">うまくいかない時</a>
+              <a href="/articles/f-09-safety">安全性</a>
+              <a href="/evidence">根拠</a>
+              <a href="/guide">記録ガイド</a>
             </nav>
           </header>
           {children}
@@ -56,11 +55,11 @@ export default function RootLayout({
           <p>脳イキ音声で何も感じない、怖い、途中で止まる時に、今の状態を見直すための情報サイトです。</p>
             </div>
             <div className="footer-links">
-              <Link href="/about">このサイトについて</Link>
-          <Link href="/evidence">根拠</Link>
-              <Link href="/disclaimer">免責事項</Link>
-              <Link href="/privacy">プライバシー</Link>
-              <Link href="/contact">問い合わせ</Link>
+              <a href="/about">このサイトについて</a>
+              <a href="/evidence">根拠</a>
+              <a href="/disclaimer">免責事項</a>
+              <a href="/privacy">プライバシー</a>
+              <a href="/contact">問い合わせ</a>
             </div>
           </footer>
         </div>

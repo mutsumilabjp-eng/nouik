@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { articleCard, getArticleById, getArticlesByGroup, guideCta } from "./site";
 
 export default function Home() {
@@ -25,14 +24,14 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button" href="#cannot">
-              今の状態から探す
+            今の状態から探す
+          </a>
+          {first ? (
+            <a className="text-link" href={`/articles/${first.slug}`}>
+              本当にあるのか読む
             </a>
-            {first ? (
-              <Link className="text-link" href={`/articles/${first.slug}`}>
-                本当にあるのか読む
-              </Link>
-            ) : null}
-          </div>
+          ) : null}
+        </div>
           <div className="hero-chips" aria-label="よくある検索のきっかけ">
             <span>何も感じない</span>
             <span>怖くなった</span>
@@ -88,9 +87,9 @@ export default function Home() {
             音量、体調、眠気、怖さ、期待しすぎ。あとから見ると、小さな要因が重なっていたと分かることがあります。ここでは「できない人」と決めつけず、止まった場所を見る読み方に寄せています。
           </p>
           {hub ? (
-            <Link className="button" href={`/articles/${hub.slug}`}>
+            <a className="button" href={`/articles/${hub.slug}`}>
               止まった場所を見る
-            </Link>
+            </a>
           ) : null}
         </div>
       </section>
@@ -122,9 +121,9 @@ export default function Home() {
           <p>
             論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。気になる人が元資料まで戻れるように、確認した資料をまとめています。
           </p>
-          <Link className="text-link" href="/evidence">
+          <a className="text-link" href="/evidence">
             参考資料を見る
-          </Link>
+          </a>
         </div>
         <Image src="/images/study-window.jpg" alt="窓辺の机で資料を読む静かな作業風景" width={1000} height={750} />
       </section>
@@ -137,9 +136,9 @@ export default function Home() {
         </div>
         <div className="article-grid">{byGroup["安全性"].map(articleCard)}</div>
         {safety ? (
-          <Link className="button secondary-button" href={`/articles/${safety.slug}`}>
+          <a className="button secondary-button" href={`/articles/${safety.slug}`}>
             安全性の記事を読む
-          </Link>
+          </a>
         ) : null}
       </section>
 

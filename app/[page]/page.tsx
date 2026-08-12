@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { staticPages } from "../static-pages";
 
@@ -12,9 +11,9 @@ function paragraphParts(text: string) {
   const urlPattern = /(https:\/\/[^\s。]+)/g;
   return text.split(urlPattern).map((part, index) =>
     part.startsWith("https://") ? (
-      <Link href={part} key={`${part}-${index}`} rel="noreferrer" target="_blank">
+      <a href={part} key={`${part}-${index}`} rel="noreferrer" target="_blank">
         {part}
-      </Link>
+      </a>
     ) : (
       part
     ),

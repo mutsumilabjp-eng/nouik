@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { rawArticles } from "./content-data";
 
@@ -114,11 +113,11 @@ export function articleUrl(article: Article) {
 
 export function articleCard(article: Article): ReactNode {
   return (
-    <Link className="article-card" href={articleUrl(article)} key={article.f_id}>
+    <a className="article-card" href={articleUrl(article)} key={article.f_id}>
       <span>{cardLabels[article.f_id] ?? article.group}</span>
       <h3>{article.title}</h3>
       <p>{article.meta_description}</p>
-    </Link>
+    </a>
   );
 }
 
@@ -130,10 +129,10 @@ export function guideCta() {
         <h2 id="guide-title">「何もなかった」で終わらせないメモ</h2>
         <p>音量、姿勢、怖くなった瞬間、冷めた一言。覚えているうちに少しだけ残すと、次に読む記事を選びやすくなります。</p>
       </div>
-      <Link className="button" href="/guide">
-        メモの残し方を見る
-      </Link>
-    </section>
+    <a className="button" href="/guide">
+      メモの残し方を見る
+    </a>
+  </section>
   );
 }
 
@@ -146,9 +145,9 @@ function inlineNodes(text: string, idToUrl: Record<string, string>): ReactNode[]
   while ((match = regex.exec(text))) {
     if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
     parts.push(
-      <Link href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
+      <a href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
         {match[1]}
-      </Link>,
+      </a>,
     );
     lastIndex = regex.lastIndex;
   }

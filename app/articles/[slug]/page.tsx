@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articleCard, articleUrl, getArticleBySlug, getArticles, guideCta, markdownToNodes } from "../../site";
 
@@ -44,7 +43,7 @@ export default async function ArticlePage({ params }: Params) {
   return (
     <main className="article-shell">
       <nav className="breadcrumb" aria-label="パンくず">
-        <Link href="/">ホーム</Link>
+        <a href="/">ホーム</a>
         <span>/</span>
         <span>{article.group}</span>
       </nav>
