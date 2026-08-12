@@ -64,7 +64,7 @@ export default function AgeGate() {
         <p className="kicker">18歳以上向け</p>
         <h2 id="age-gate-title">18歳以上ですか</h2>
         <p>
-          このサイトは、性的な話題を含みます。18歳未満の方、またはこの話題を読むことに不安がある方は閲覧を控えてください。
+          この先には、成人向けの性に関する内容があります。18歳未満の方は閲覧できません。
         </p>
         <div className="age-gate-actions">
           <button className="button" type="button" onClick={enterSite} ref={enterButtonRef}>

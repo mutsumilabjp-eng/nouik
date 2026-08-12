@@ -12,16 +12,16 @@ export default function Home() {
     <main>
       <section className="hero">
         <div className="hero-copy">
-          <p className="kicker">昨日、音声を止めたあとに検索したあなたへ</p>
+          <p className="kicker">昨日、脳イキ音声を止めたあとに検索したあなたへ</p>
           <h1>
-            コメント欄は
+            脳イキできた人の
             <br />
-            反応している。
+            コメントばかり。
             <br />
-            私には何もない。
+            自分には何もない。
           </h1>
           <p>
-            これ、私だけ？と思ったなら、まずそこから見ます。脳イキ音声やASMRで何も感じない、少し来ても怖くなる、いい所で急に冷める。その違いを、体験談の熱量に飲まれずに追えるようにしました。
+            脳イキ音声やASMRで何も感じない、少し来るのに途中で止まる、怖くなって閉じる。これ、私だけ？と思ったなら、まず昨日に近い状態から見てください。
           </p>
           <div className="hero-actions">
             <a className="button" href="#cannot">
@@ -41,30 +41,30 @@ export default function Home() {
         </div>
         <figure className="hero-media">
           <Image src="/images/hero-desk.jpg" alt="夜の静かな机に開かれたノートとランプが置かれている" width={1200} height={900} priority />
-          <figcaption>効いた人の話だけでは、自分の反応は見えてきません。</figcaption>
+          <figcaption>効いた人の話だけでは、止まった場所は見えてきません。</figcaption>
         </figure>
       </section>
 
       <section className="statement-panel">
         <p>信じたい気持ちと、疑う気持ちが同時にある。</p>
-        <h2>そのままで大丈夫です。まずは「起きた人の話」と「自分に起きるか」を分けて読みます。</h2>
+        <h2>まずは「起きた人の話」と「自分に起きるか」を分けて読みます。</h2>
       </section>
 
       <section className="trust-ribbon" aria-label="このサイトの読み方">
         <div>
           <span>01</span>
-          <strong>できる人の声だけで決めない</strong>
+            <strong>できた人の声だけで決めない</strong>
           <p>コメント欄が熱いほど、自分だけ遅れている気がします。まず、その見え方から離れます。</p>
         </div>
         <div>
           <span>02</span>
           <strong>昨日の場面から読む</strong>
-          <p>何も感じない、怖い、止まる。検索した理由に近いところから入れます。</p>
+            <p>何も感じない、怖い、止まる。検索した理由に近いところから入ります。</p>
         </div>
         <div>
           <span>03</span>
           <strong>無理に続けない</strong>
-          <p>不快感や生活への影響がある時は、コツ探しより中断を先にします。</p>
+            <p>不快感や生活への影響がある時は、コツ探しより中断を先に置きます。</p>
         </div>
       </section>
 
@@ -110,7 +110,7 @@ export default function Home() {
         <div className="section-head">
           <p className="kicker">状態別</p>
           <h2>「自分はどれだろう」と迷う時に。</h2>
-          <p>ひとつに決めなくても大丈夫です。複数に当てはまる人もいます。</p>
+          <p>ひとつに決めきれなくてもかまいません。複数に当てはまる人もいます。</p>
         </div>
         <div className="article-grid">{byGroup["状態別"].map(articleCard)}</div>
       </section>
