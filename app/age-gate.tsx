@@ -10,8 +10,7 @@ export default function AgeGate() {
   const enterButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const shell = document.getElementById("site-shell");
-    if (!shell || confirmed) return;
+    if (confirmed) return;
 
     function keepFocusInside(event: KeyboardEvent) {
       if (event.key !== "Tab") return;
@@ -33,15 +32,11 @@ export default function AgeGate() {
       }
     }
 
-    shell.setAttribute("inert", "");
-    shell.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "hidden";
     document.addEventListener("keydown", keepFocusInside);
     enterButtonRef.current?.focus();
 
     return () => {
-      shell.removeAttribute("inert");
-      shell.removeAttribute("aria-hidden");
       document.body.style.overflow = "";
       document.removeEventListener("keydown", keepFocusInside);
     };
@@ -54,18 +49,11 @@ export default function AgeGate() {
   if (confirmed) return null;
 
   return (
-    <div
-      className="age-gate"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="age-gate-title"
-    >
+    <div className="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
       <div className="age-gate-panel" ref={panelRef}>
         <p className="kicker">18歳以上向け</p>
         <h2 id="age-gate-title">18歳以上ですか</h2>
-        <p>
-          この先には、成人向けの性に関する内容があります。18歳未満の方は閲覧できません。
-        </p>
+        <p>この先には、成人向けの性に関する内容があります。18歳未満の方は閲覧できません。</p>
         <div className="age-gate-actions">
           <button className="button" type="button" onClick={enterSite} ref={enterButtonRef}>
             18歳以上です
