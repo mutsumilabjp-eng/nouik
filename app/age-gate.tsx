@@ -3,9 +3,29 @@
 import { useEffect, useRef, useState } from "react";
 
 const focusableSelector = 'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const storageKey = "nouiki-age-confirmed";
+
+function hasConfirmedAge() {
+  try {
+    return window.localStorage.getItem(storageKey) === "yes";
+  } catch {
+    return false;
+  }
+}
+
+function storeAgeConfirmation() {
+  try {
+    window.localStorage.setItem(storageKey, "yes");
+  } catch {
+    // Some private browser modes block storage. The click should still enter the site.
+  }
+}
 
 export default function AgeGate() {
-  const [confirmed, setConfirmed] = useState(false);
+  const [confirmed, setConfirmed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return hasConfirmedAge();
+  });
   const panelRef = useRef<HTMLDivElement>(null);
   const enterButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -43,6 +63,7 @@ export default function AgeGate() {
   }, [confirmed]);
 
   function enterSite() {
+    storeAgeConfirmation();
     setConfirmed(true);
   }
 
@@ -55,7 +76,13 @@ export default function AgeGate() {
         <h2 id="age-gate-title">18歳以上ですか</h2>
         <p>この先には、成人向けの性に関する内容があります。18歳未満の方は閲覧できません。</p>
         <div className="age-gate-actions">
-          <button className="button" type="button" onClick={enterSite} ref={enterButtonRef}>
+          <button
+            className="button"
+            type="button"
+            onClick={enterSite}
+            onPointerUp={enterSite}
+            ref={enterButtonRef}
+          >
             18歳以上です
           </button>
           <a className="text-link" href="https://www.google.com/">
