@@ -2,6 +2,16 @@
 
 公開前の無料サイト用プロジェクト。初版はF01/F02/F04/F05/F06/F07/F08/F09/F10/F11/F12/F13の12本。
 
+## 共有情報
+
+- 本番URL: https://nouiki-lab.com
+- GitHub: https://github.com/mutsumilabjp-eng/nouik
+- 公開先: OpenAI Sites
+- Sites project ID: `appgprj_6a7b389d16208191a94d8ecd9f67de8e`
+- ドメイン: `nouiki-lab.com`
+- DNS: `nouiki-lab.com` と `www.nouiki-lab.com` は Sites カスタムドメイン向き
+- ローカル作業場所: `/Users/mutsumi/AI_WorkSpace/nouiki-lab/free-site`
+
 ## 未着手
 
 - F03(科学的根拠と論文の現在地): 出典確認が十分にそろうまで公開しない。F01/F02から直接リンクしない。
