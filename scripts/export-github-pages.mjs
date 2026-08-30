@@ -101,6 +101,7 @@ async function main() {
   const baseUrl = `http://${host}:${port}`;
   const child = spawn("npm", ["run", "start", "--", "--host", host, "--port", String(port)], {
     cwd: root,
+    detached: true,
     env: { ...process.env, WRANGLER_LOG_PATH: ".wrangler/wrangler.log" },
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -121,7 +122,15 @@ async function main() {
     await writeFile(path.join(outputDir, ".nojekyll"), "");
     console.log(`Exported ${allRoutes.length} routes to ${outputDir}`);
   } finally {
-    child.kill("SIGTERM");
+    if (child.pid) {
+      try {
+        process.kill(-child.pid, "SIGTERM");
+      } catch (error) {
+        if (error.code !== "ESRCH") {
+          console.warn(`Could not stop export server: ${error.message}`);
+        }
+      }
+    }
   }
 }
 
