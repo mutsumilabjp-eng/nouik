@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articleCard, articleUrl, getArticleBySlug, getArticles, guideCta, markdownToNodes } from "../../site";
+import {
+  articleCard,
+  articleUrl,
+  getArticleBySlug,
+  getArticles,
+  guideCta,
+  listAcquisitionCta,
+  markdownToNodes,
+  shouldShowListCta,
+} from "../../site";
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -43,7 +53,7 @@ export default async function ArticlePage({ params }: Params) {
   return (
     <main className="article-shell">
       <nav className="breadcrumb" aria-label="パンくず">
-        <a href="/">ホーム</a>
+        <Link href="/">ホーム</Link>
         <span>/</span>
         <span>{article.group}</span>
       </nav>
@@ -59,6 +69,8 @@ export default async function ArticlePage({ params }: Params) {
           <p>不快感、眠れなさ、動悸、日常生活への影響がある場合は、コツ探しより休むことを優先してください。</p>
         </aside>
       </article>
+
+      {shouldShowListCta(article) ? listAcquisitionCta("article") : null}
 
       {related.length ? (
         <section className="section related-section">

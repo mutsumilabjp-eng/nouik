@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import AgeGate from "./age-gate";
-import { articleCard, getArticleById, getArticlesByGroup, guideCta } from "./site";
+import { articleCard, getArticleById, getArticlesByGroup, guideCta, listAcquisitionCta } from "./site";
 
 export default function Home() {
   const byGroup = getArticlesByGroup();
@@ -116,6 +117,8 @@ export default function Home() {
         <div className="article-grid">{byGroup["状態別"].map(articleCard)}</div>
       </section>
 
+      {listAcquisitionCta("top")}
+
       <section className="evidence-strip">
         <div>
           <p className="kicker">気になる人へ</p>
@@ -123,9 +126,9 @@ export default function Home() {
           <p>
             論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。気になる人が元資料まで戻れるように、確認した資料をまとめています。
           </p>
-          <a className="text-link" href="/evidence">
+          <Link className="text-link" href="/evidence">
             参考資料を見る
-          </a>
+          </Link>
         </div>
         <Image src="/images/study-window.jpg" alt="窓辺の机で資料を読む静かな作業風景" width={1000} height={750} />
       </section>

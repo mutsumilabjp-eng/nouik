@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { rawArticles } from "./content-data";
 
 export type Article = {
@@ -18,6 +19,9 @@ export type Article = {
 };
 
 export const categoryOrder = ["はじめに", "うまくいかない時", "状態別", "安全性"] as const;
+export const freeMemoFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLScijbDLEcJNmUJWvX2YUqv60Tm2t2btRjRZk7kjCwwruj3FSw/viewform";
+export const premiumGuideUrl = "https://deeps.me/u/sei/a/nouiki";
 
 const categoryMap: Record<string, (typeof categoryOrder)[number]> = {
   F01: "はじめに",
@@ -49,10 +53,11 @@ const cardLabels: Record<string, string> = {
   F13: "どれに近いか迷っている",
 };
 
+const listCtaArticleIds = new Set(["F05", "F06", "F07", "F08", "F10", "F11", "F12", "F13"]);
+
 function parseFrontMatter(raw: string, file: string) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) throw new Error(`Missing front matter: ${file}`);
-
   const meta: Record<string, string | string[]> = {};
   for (const line of match[1].split("\n")) {
     const [key, ...rest] = line.split(":");
@@ -60,7 +65,6 @@ function parseFrontMatter(raw: string, file: string) {
     if (!key || rawValue === "") continue;
     meta[key.trim()] = rawValue.startsWith("[") ? JSON.parse(rawValue) : rawValue.replace(/^"|"$/g, "");
   }
-
   return { meta, body: match[2].trim() };
 }
 
@@ -113,11 +117,59 @@ export function articleUrl(article: Article) {
 
 export function articleCard(article: Article): ReactNode {
   return (
-    <a className="article-card" href={articleUrl(article)} key={article.f_id}>
+    <Link className="article-card" href={articleUrl(article)} key={article.f_id}>
       <span>{cardLabels[article.f_id] ?? article.group}</span>
       <h3>{article.title}</h3>
       <p>{article.meta_description}</p>
-    </a>
+    </Link>
+  );
+}
+
+export function shouldShowListCta(article: Article) {
+  return listCtaArticleIds.has(article.f_id);
+}
+
+export function listAcquisitionCta(source: "top" | "article" = "top") {
+  const freeMemoCta = source === "top" ? "top-free-memo" : "article-free-memo";
+  return (
+    <section className={`list-cta list-cta-${source}`} aria-labelledby={`list-cta-title-${source}`}>
+      <div className="list-cta-primary">
+        <p className="kicker">昨日の状態を1分で分けるメモ</p>
+        <h2 id={`list-cta-title-${source}`}>まだ「自分がどこで止まっているか」が分からない人へ</h2>
+        <p>できた人の方法を、もうひとつ増やす前に。</p>
+        <p>まず、昨日の自分がどこで止まっていたのかを1分で分けてみてください。</p>
+        <ul>
+          <li>何も感じなかったのか。</li>
+          <li>少し来たけれど消えたのか。</li>
+          <li>怖くなって止めたのか。</li>
+          <li>確認する頭が勝ったのか。</li>
+          <li>前にあった感覚を探しているのか。</li>
+          <li>そもそも何を目印にすればいいか分からないのか。</li>
+        </ul>
+        <p>
+          最初に届くのは、「昨日の状態を1分で分けるメモ」です。成功談を増やすためではなく、次に見る場所を減らすための短いメモです。
+        </p>
+        <div className="list-cta-actions">
+          <a className="button" href={freeMemoFormUrl} data-cta={freeMemoCta} rel="noreferrer" target="_blank">
+            無料メモを受け取る
+          </a>
+          <p>18歳以上向け / Googleフォームへ移動します</p>
+        </div>
+      </div>
+
+      <div className="list-cta-secondary">
+        <p className="kicker">すでに自分の止まり方が見えている人へ</p>
+        <h3>「自分はたぶんここで止まっている」</h3>
+        <p>
+          そこまでは整理できていて、次に何を見るか、何を1つだけ変えるか、どう記録して比較するかまで進みたい場合は、詳細ガイドがあります。
+        </p>
+        <Link className="secondary-link" href="/premium-guide" data-cta="premium-guide">
+          詳細ガイドを見る
+        </Link>
+        <p className="microcopy">約38,000文字 / 5,980円 / 18歳以上向け</p>
+        <p className="microcopy">特定の体験や結果を保証するものではありません。</p>
+      </div>
+    </section>
   );
 }
 
@@ -129,10 +181,10 @@ export function guideCta() {
         <h2 id="guide-title">「何もなかった」で終わらせないメモ</h2>
         <p>音量、姿勢、怖くなった瞬間、冷めた一言。覚えているうちに少しだけ残すと、次に読む記事を選びやすくなります。</p>
       </div>
-    <a className="button" href="/guide">
-      メモの残し方を見る
-    </a>
-  </section>
+      <Link className="button" href="/guide">
+        メモの残し方を見る
+      </Link>
+    </section>
   );
 }
 
@@ -145,9 +197,9 @@ function inlineNodes(text: string, idToUrl: Record<string, string>): ReactNode[]
   while ((match = regex.exec(text))) {
     if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
     parts.push(
-      <a href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
+      <Link href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
         {match[1]}
-      </a>,
+      </Link>,
     );
     lastIndex = regex.lastIndex;
   }

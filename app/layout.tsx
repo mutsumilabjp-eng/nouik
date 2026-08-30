@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,15 +36,16 @@ export default function RootLayout({
       <body>
         <div id="site-shell">
           <header className="site-header">
-            <a className="brand" href="/">
+            <Link className="brand" href="/">
               脳イキ研究ノート
-            </a>
+            </Link>
             <nav aria-label="主要ナビゲーション">
-              <a href="/#start">はじめに</a>
-              <a href="/#cannot">うまくいかない時</a>
-              <a href="/articles/f-09-safety">安全性</a>
-              <a href="/evidence">根拠</a>
-              <a href="/guide">記録ガイド</a>
+              <Link href="/#start">はじめに</Link>
+              <Link href="/#cannot">うまくいかない時</Link>
+              <Link href="/articles/f-09-safety">安全性</Link>
+              <Link href="/evidence">根拠</Link>
+              <Link href="/guide">記録ガイド</Link>
+              <Link href="/premium-guide">詳細ガイド</Link>
             </nav>
           </header>
           {children}
@@ -53,11 +55,12 @@ export default function RootLayout({
           <p>脳イキ音声で何も感じない、怖い、途中で止まる時に、今の状態を見直すための情報サイトです。</p>
             </div>
             <div className="footer-links">
-              <a href="/about">このサイトについて</a>
-              <a href="/evidence">根拠</a>
-              <a href="/disclaimer">免責事項</a>
-              <a href="/privacy">プライバシー</a>
-              <a href="/contact">問い合わせ</a>
+              <Link href="/about">このサイトについて</Link>
+              <Link href="/evidence">根拠</Link>
+              <Link href="/disclaimer">免責事項</Link>
+              <Link href="/privacy">プライバシー</Link>
+              <Link href="/contact">問い合わせ</Link>
+              <Link href="/premium-guide">詳細ガイド</Link>
             </div>
           </footer>
         </div>

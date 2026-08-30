@@ -1,13 +1,32 @@
 import { spawn } from "node:child_process";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import net from "node:net";
 import path from "node:path";
 
 const root = process.cwd();
 const outputDir = path.join(root, "pages-dist");
 const host = "127.0.0.1";
-const port = Number(process.env.STATIC_EXPORT_PORT || 4173);
-const baseUrl = `http://${host}:${port}`;
 const domain = "nouiki-lab.com";
+
+async function getAvailablePort() {
+  if (process.env.STATIC_EXPORT_PORT) return Number(process.env.STATIC_EXPORT_PORT);
+
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.unref();
+    server.on("error", reject);
+    server.listen(0, host, () => {
+      const address = server.address();
+      server.close(() => {
+        if (address && typeof address === "object") {
+          resolve(address.port);
+          return;
+        }
+        reject(new Error("Could not allocate an export server port"));
+      });
+    });
+  });
+}
 
 function articleSlug(file) {
   const id = file.slice(0, 3).toLowerCase().replace("f", "f-");
@@ -24,10 +43,10 @@ async function routes() {
   const articleFiles = [...articleSource.matchAll(/"((F\d+_[^"]+\.md))"/g)].map(([, file]) => file);
   const articles = articleFiles.map((file) => `/articles/${articleSlug(file)}`);
 
-  return ["/", ...staticPages, ...articles, "/robots.txt", "/sitemap.xml"];
+  return ["/", "/premium-guide", ...staticPages, ...articles, "/robots.txt", "/sitemap.xml"];
 }
 
-async function waitForServer(child) {
+async function waitForServer(child, baseUrl) {
   const deadline = Date.now() + 30_000;
   while (Date.now() < deadline) {
     if (child.exitCode !== null) {
@@ -58,7 +77,7 @@ function normalizeHtml(html) {
   );
 }
 
-async function exportRoute(route) {
+async function exportRoute(route, baseUrl) {
   const response = await fetch(`${baseUrl}${route}`);
   if (!response.ok) {
     throw new Error(`Failed to export ${route}: ${response.status}`);
@@ -78,6 +97,8 @@ async function main() {
   await rm(outputDir, { force: true, recursive: true });
   await mkdir(outputDir, { recursive: true });
 
+  const port = await getAvailablePort();
+  const baseUrl = `http://${host}:${port}`;
   const child = spawn("npm", ["run", "start", "--", "--host", host, "--port", String(port)], {
     cwd: root,
     env: { ...process.env, WRANGLER_LOG_PATH: ".wrangler/wrangler.log" },
@@ -88,12 +109,12 @@ async function main() {
   child.stderr.on("data", (chunk) => process.stderr.write(chunk));
 
   try {
-    await waitForServer(child);
+    await waitForServer(child, baseUrl);
     await cp(path.join(root, "dist/client"), outputDir, { recursive: true });
 
     const allRoutes = await routes();
     for (const route of allRoutes) {
-      await exportRoute(route);
+      await exportRoute(route, baseUrl);
     }
 
     await writeFile(path.join(outputDir, "CNAME"), `${domain}\n`);

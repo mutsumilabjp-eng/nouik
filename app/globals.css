@@ -346,6 +346,8 @@ img {
 .feature-row,
 .evidence-strip,
 .guide-cta,
+.list-cta,
+.premium-page,
 .article-shell,
 .static-page {
   max-width: 1116px;
@@ -503,6 +505,183 @@ h2 {
   color: var(--teal-dark);
 }
 
+.list-cta {
+  margin-top: 20px;
+  margin-bottom: 34px;
+}
+
+.list-cta-primary {
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(237, 249, 242, 0.94));
+  box-shadow: 0 16px 40px rgba(7, 80, 93, 0.09);
+}
+
+.list-cta-primary h2,
+.premium-hero h1,
+.premium-section h2,
+.premium-split h2,
+.premium-final h2 {
+  margin: 0 0 18px;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+}
+
+.list-cta-primary p,
+.list-cta-primary li,
+.list-cta-secondary p,
+.premium-hero p,
+.premium-section p,
+.premium-split p,
+.premium-final p {
+  color: var(--muted);
+}
+
+.list-cta-primary ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px;
+  margin: 22px 0;
+  padding-left: 20px;
+}
+
+.list-cta-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.list-cta-actions p,
+.microcopy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.list-cta-secondary {
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.list-cta-secondary h3 {
+  margin: 4px 0 10px;
+  font-size: 22px;
+}
+
+.secondary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin: 10px 0 10px;
+  padding: 0 16px;
+  border: 1px solid var(--teal);
+  border-radius: 999px;
+  color: var(--teal-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.secondary-link:hover {
+  background: rgba(191, 234, 243, 0.32);
+}
+
+.premium-page {
+  padding-top: 64px;
+}
+
+.premium-hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(240px, 0.55fr);
+  gap: 42px;
+  align-items: center;
+}
+
+.premium-hero h1 {
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.14;
+}
+
+.premium-meta,
+.stop-type-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.premium-meta span,
+.stop-type-grid span {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.86);
+  color: var(--teal-dark);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.premium-cover {
+  margin: 0;
+}
+
+.premium-cover img {
+  display: block;
+  width: min(100%, 340px);
+  margin-left: auto;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.premium-section,
+.premium-split,
+.premium-final {
+  margin-top: 58px;
+}
+
+.premium-split,
+.fit-grid,
+.premium-final {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(280px, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.premium-list,
+.fit-grid > div {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 12px 30px rgba(7, 80, 93, 0.06);
+}
+
+.premium-list {
+  padding-left: 42px;
+}
+
+.fit-grid h3 {
+  margin-top: 0;
+}
+
+.premium-page-memo {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.premium-final {
+  align-items: center;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 253, 248, 0.88);
+}
+
 .breadcrumb {
   display: flex;
   gap: 10px;
@@ -588,6 +767,10 @@ h2 {
   .section-head,
   .feature-row,
   .evidence-strip,
+  .premium-hero,
+  .premium-split,
+  .fit-grid,
+  .premium-final,
   .reason-grid,
   .problem-grid,
   .article-grid {
@@ -600,6 +783,8 @@ h2 {
   .evidence-strip,
   .trust-ribbon,
   .guide-cta,
+  .list-cta,
+  .premium-page,
   .article-shell,
   .static-page {
     padding-left: 20px;
@@ -645,10 +830,39 @@ h2 {
   }
 
   .guide-cta,
+  .list-cta-actions,
   .notice-band,
   .site-footer {
     flex-direction: column;
+    align-items: flex-start;
     border-radius: 24px;
+  }
+
+  .list-cta-primary {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+
+  .list-cta-primary ul {
+    grid-template-columns: 1fr;
+  }
+
+  .list-cta-actions .button,
+  .premium-final .button {
+    width: 100%;
+  }
+
+  .premium-page {
+    padding-top: 36px;
+  }
+
+  .premium-cover img {
+    width: min(100%, 280px);
+    margin: 0 auto;
+  }
+
+  .premium-final {
+    padding: 24px 20px;
   }
 
   .hero-media figcaption {
