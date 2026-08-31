@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { rawArticles } from "./content-data";
 
 export type Article = {
@@ -53,7 +53,7 @@ const cardLabels: Record<string, string> = {
   F13: "どれに近いか迷っている",
 };
 
-const listCtaArticleIds = new Set(["F05", "F06", "F07", "F08", "F10", "F11", "F12", "F13"]);
+const listCtaArticleIds = new Set(["F05", "F06", "F08", "F10", "F11", "F12", "F13"]);
 
 function parseFrontMatter(raw: string, file: string) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -117,11 +117,11 @@ export function articleUrl(article: Article) {
 
 export function articleCard(article: Article): ReactNode {
   return (
-    <Link className="article-card" href={articleUrl(article)} key={article.f_id}>
+    <a className="article-card" href={articleUrl(article)} key={article.f_id}>
       <span>{cardLabels[article.f_id] ?? article.group}</span>
       <h3>{article.title}</h3>
       <p>{article.meta_description}</p>
-    </Link>
+    </a>
   );
 }
 
@@ -163,9 +163,9 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <p>
           そこまでは整理できていて、次に何を見るか、何を1つだけ変えるか、どう記録して比較するかまで進みたい場合は、詳細ガイドがあります。
         </p>
-        <Link className="secondary-link" href="/premium-guide" data-cta="premium-guide">
+        <a className="secondary-link" href="/premium-guide" data-cta="premium-guide">
           詳細ガイドを見る
-        </Link>
+        </a>
         <p className="microcopy">約38,000文字 / 5,980円 / 18歳以上向け</p>
         <p className="microcopy">特定の体験や結果を保証するものではありません。</p>
       </div>
@@ -181,9 +181,9 @@ export function guideCta() {
         <h2 id="guide-title">「何もなかった」で終わらせないメモ</h2>
         <p>音量、姿勢、怖くなった瞬間、冷めた一言。覚えているうちに少しだけ残すと、次に読む記事を選びやすくなります。</p>
       </div>
-      <Link className="button" href="/guide">
+      <a className="button" href="/guide">
         メモの残し方を見る
-      </Link>
+      </a>
     </section>
   );
 }
@@ -197,9 +197,9 @@ function inlineNodes(text: string, idToUrl: Record<string, string>): ReactNode[]
   while ((match = regex.exec(text))) {
     if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
     parts.push(
-      <Link href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
+      <a href={idToUrl[match[2]] || "#"} key={`${match[2]}-${match.index}`}>
         {match[1]}
-      </Link>,
+      </a>,
     );
     lastIndex = regex.lastIndex;
   }

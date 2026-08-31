@@ -1,6 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
-import AgeGate from "./age-gate";
+/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element */
 import { articleCard, getArticleById, getArticlesByGroup, guideCta, listAcquisitionCta } from "./site";
 
 export default function Home() {
@@ -10,9 +8,7 @@ export default function Home() {
   const hub = getArticleById("F13");
 
   return (
-    <main>
-      <AgeGate />
-      <section className="hero">
+    <main>      <section className="hero">
         <div className="hero-copy">
           <p className="kicker">昨日、脳イキ音声を止めたあとに検索したあなたへ</p>
           <h1>
@@ -42,7 +38,7 @@ export default function Home() {
           </div>
         </div>
         <figure className="hero-media">
-          <Image src="/images/hero-desk.jpg" alt="夜の静かな机に開かれたノートとランプが置かれている" width={1200} height={900} priority />
+          <img src="/images/hero-desk.jpg" alt="夜の静かな机に開かれたノートとランプが置かれている" width={1200} height={900} />
           <figcaption>効いた人の話だけでは、止まった場所は見えてきません。</figcaption>
         </figure>
       </section>
@@ -82,7 +78,7 @@ export default function Home() {
       </section>
 
       <section className="feature-row">
-        <Image src="/images/notebook-sun.jpg" alt="窓辺のノートとやわらかい日差し" width={1000} height={750} />
+        <img src="/images/notebook-sun.jpg" alt="窓辺のノートとやわらかい日差し" width={1000} height={750} />
         <div>
           <p className="kicker">自分を責める前に</p>
           <h2>効かなかった日は、失敗の日とは限りません。</h2>
@@ -126,11 +122,11 @@ export default function Home() {
           <p>
             論文や公的情報は確認しています。ただし、個別の体験を「研究で証明済み」とは扱いません。気になる人が元資料まで戻れるように、確認した資料をまとめています。
           </p>
-          <Link className="text-link" href="/evidence">
+          <a className="text-link" href="/evidence">
             参考資料を見る
-          </Link>
+          </a>
         </div>
-        <Image src="/images/study-window.jpg" alt="窓辺の机で資料を読む静かな作業風景" width={1000} height={750} />
+        <img src="/images/study-window.jpg" alt="窓辺の机で資料を読む静かな作業風景" width={1000} height={750} />
       </section>
 
       <section className="section">

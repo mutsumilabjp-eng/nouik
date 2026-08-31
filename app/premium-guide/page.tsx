@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { freeMemoFormUrl, premiumGuideUrl } from "../site";
 
@@ -53,13 +53,10 @@ export default function PremiumGuidePage() {
           </div>
         </div>
         <figure className="premium-cover">
-          <Image
-            src="/images/premium-guide-cover.png"
+          <img src="/images/premium-guide-cover.png"
             alt="脳イキ研究ノート 詳細ガイドの表紙"
             width={1086}
-            height={1448}
-            priority
-          />
+            height={1448} />
         </figure>
       </section>
 

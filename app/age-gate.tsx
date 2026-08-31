@@ -22,12 +22,17 @@ function storeAgeConfirmation() {
 }
 
 export default function AgeGate() {
-  const [confirmed, setConfirmed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return hasConfirmedAge();
-  });
+  const [confirmed, setConfirmed] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const enterButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (hasConfirmedAge()) setConfirmed(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (confirmed) return;
