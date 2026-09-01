@@ -6,6 +6,7 @@ interface Env {
   ASSETS: Fetcher;
   DB?: D1Database;
   EMAIL?: SendEmail;
+  RESEND_API_KEY?: string;
   SUBSCRIBE_FROM_EMAIL?: string;
   SUBSCRIBE_NOTIFY_EMAIL?: string;
   IMAGES: {
@@ -62,6 +63,37 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+async function sendResendNotification(input: {
+  apiKey: string;
+  fromEmail: string;
+  html: string;
+  notifyEmail: string;
+  replyTo: string;
+  subject: string;
+  text: string;
+}) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${input.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `脳イキ研究ノート <${input.fromEmail}>`,
+      to: [input.notifyEmail],
+      reply_to: input.replyTo,
+      subject: input.subject,
+      text: input.text,
+      html: input.html,
+    }),
+  });
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => response.statusText);
+    throw new Error(`Resend送信失敗: ${response.status} ${message}`);
+  }
 }
 
 async function sha256(value: string) {
@@ -179,25 +211,42 @@ async function handleSubscribe(request: Request, env: Env) {
     `日時: ${submittedAt}`,
     `保存状態: ${storageStatus}`,
   ];
+  const subject = `【脳イキ研究ノート】${label} 登録`;
+  const html = `<p>脳イキ研究ノートの購読フォームから登録がありました。</p>
+<dl>
+<dt>登録種別</dt><dd>${escapeHtml(label)}</dd>
+<dt>メールアドレス</dt><dd>${escapeHtml(email)}</dd>
+<dt>流入元</dt><dd>${escapeHtml(source)}</dd>
+<dt>ページ</dt><dd>${escapeHtml(page)}</dd>
+<dt>日時</dt><dd>${escapeHtml(submittedAt)}</dd>
+<dt>保存状態</dt><dd>${escapeHtml(storageStatus)}</dd>
+</dl>`;
 
   let notificationSent = false;
-  if (env.EMAIL && notifyEmail) {
+  if (env.RESEND_API_KEY && notifyEmail) {
+    try {
+      await sendResendNotification({
+        apiKey: env.RESEND_API_KEY,
+        fromEmail,
+        html,
+        notifyEmail,
+        replyTo: email,
+        subject,
+        text: lines.join("\n"),
+      });
+      notificationSent = true;
+    } catch {
+      // D1 remains source truth when email delivery unavailable.
+    }
+  } else if (env.EMAIL && notifyEmail) {
     try {
       await env.EMAIL.send({
         from: { email: fromEmail, name: "脳イキ研究ノート" },
         to: notifyEmail,
         replyTo: email,
-        subject: `【脳イキ研究ノート】${label} 登録`,
+        subject,
         text: lines.join("\n"),
-        html: `<p>脳イキ研究ノートの購読フォームから登録がありました。</p>
-<dl>
-  <dt>登録種別</dt><dd>${escapeHtml(label)}</dd>
-  <dt>メールアドレス</dt><dd>${escapeHtml(email)}</dd>
-  <dt>流入元</dt><dd>${escapeHtml(source)}</dd>
-  <dt>ページ</dt><dd>${escapeHtml(page)}</dd>
-  <dt>日時</dt><dd>${escapeHtml(submittedAt)}</dd>
-  <dt>保存状態</dt><dd>${escapeHtml(storageStatus)}</dd>
-</dl>`,
+        html,
       });
       notificationSent = true;
     } catch {
