@@ -15,6 +15,7 @@ const localBindingConfig = {
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
   vars: {
+    INBOUND_FORWARD_EMAIL: "sey.nouiki@gmail.com",
     SUBSCRIBE_FROM_EMAIL: "notify@nouiki-lab.com",
     SUBSCRIBE_NOTIFY_EMAIL: "sey.nouiki@gmail.com",
   },
