@@ -154,21 +154,15 @@ async function handleSubscribe(request: Request, env: Env) {
     return jsonResponse({ message: "メールアドレスを確認してください。" }, 400);
   }
 
-  if (!env.EMAIL) {
-    return jsonResponse({ message: "メール送信の準備中です。少し時間をおいてください。" }, 503);
-  }
-
-  if (!env.SUBSCRIBE_NOTIFY_EMAIL) {
-    return jsonResponse({ message: "通知先メールの準備中です。少し時間をおいてください。" }, 503);
-  }
-
   const label = subscriptionLabels[kind];
   const submittedAt = new Date().toISOString();
   let storageStatus = "D1未接続のためメール通知のみ";
+  let storageSaved = false;
   if (env.DB) {
     try {
       await saveSubscription(env.DB, { email, kind, source, page, submittedAt });
       storageStatus = "D1保存済み";
+      storageSaved = true;
     } catch (error) {
       storageStatus = `D1保存失敗: ${error instanceof Error ? error.message : "unknown error"}`;
     }
@@ -186,13 +180,16 @@ async function handleSubscribe(request: Request, env: Env) {
     `保存状態: ${storageStatus}`,
   ];
 
-  await env.EMAIL.send({
-    from: { email: fromEmail, name: "脳イキ研究ノート" },
-    to: notifyEmail,
-    replyTo: email,
-    subject: `【脳イキ研究ノート】${label} 登録`,
-    text: lines.join("\n"),
-    html: `<p>脳イキ研究ノートの購読フォームから登録がありました。</p>
+  let notificationSent = false;
+  if (env.EMAIL && notifyEmail) {
+    try {
+      await env.EMAIL.send({
+        from: { email: fromEmail, name: "脳イキ研究ノート" },
+        to: notifyEmail,
+        replyTo: email,
+        subject: `【脳イキ研究ノート】${label} 登録`,
+        text: lines.join("\n"),
+        html: `<p>脳イキ研究ノートの購読フォームから登録がありました。</p>
 <dl>
   <dt>登録種別</dt><dd>${escapeHtml(label)}</dd>
   <dt>メールアドレス</dt><dd>${escapeHtml(email)}</dd>
@@ -201,7 +198,16 @@ async function handleSubscribe(request: Request, env: Env) {
   <dt>日時</dt><dd>${escapeHtml(submittedAt)}</dd>
   <dt>保存状態</dt><dd>${escapeHtml(storageStatus)}</dd>
 </dl>`,
-  });
+      });
+      notificationSent = true;
+    } catch {
+      // D1 remains the source of truth when email delivery is unavailable.
+    }
+  }
+
+  if (!storageSaved && !notificationSent) {
+    return jsonResponse({ message: "登録保存の準備中です。少し時間をおいてください。" }, 503);
+  }
 
   return jsonResponse({ message: "登録を受け付けました。" });
 }
