@@ -189,10 +189,26 @@ async function handleResendInbound(request: Request, env: Env) {
     return jsonResponse({ message: "Webhook署名を確認できませんでした。" }, 401);
   }
 
-  const event = JSON.parse(payloadText) as {
+  let event: {
     type?: string;
-    data?: { email_id?: string; from?: string; subject?: string; to?: string[] };
+    data?: {
+      attachments?: Array<{ filename?: string; size?: number }>;
+      bcc?: string[];
+      cc?: string[];
+      created_at?: string;
+      email_id?: string;
+      from?: string;
+      received_for?: string[];
+      subject?: string;
+      to?: string[];
+    };
   };
+  try {
+    event = JSON.parse(payloadText) as typeof event;
+  } catch (error) {
+    console.error("Resend inbound payload parse failed", error);
+    return jsonResponse({ message: "Webhookペイロードを読み取れませんでした。" }, 400);
+  }
   if (event.type !== "email.received" || !event.data?.email_id) {
     return jsonResponse({ message: "受信しました。" });
   }
@@ -203,47 +219,70 @@ async function handleResendInbound(request: Request, env: Env) {
     return jsonResponse({ message: "転送先が未設定です。" }, 503);
   }
 
-  const received = await getReceivedEmail(env.RESEND_API_KEY, event.data.email_id);
-  const subject = `【notify@nouiki-lab.com 受信】${received.subject || event.data.subject || "件名なし"}`;
-  const attachments = received.attachments?.length
-    ? received.attachments
+  let received: Awaited<ReturnType<typeof getReceivedEmail>> | null = null;
+  let retrieveError = "";
+  try {
+    received = await getReceivedEmail(env.RESEND_API_KEY, event.data.email_id);
+  } catch (error) {
+    retrieveError = error instanceof Error ? error.message : "unknown error";
+    console.error("Resend inbound email retrieve failed", retrieveError);
+  }
+
+  const subject = `【notify@nouiki-lab.com 受信】${received?.subject || event.data.subject || "件名なし"}`;
+  const attachmentList = received?.attachments || event.data.attachments || [];
+  const attachments = attachmentList.length
+    ? attachmentList
         .map((attachment) => `- ${attachment.filename || "attachment"} (${attachment.size || 0} bytes)`)
         .join("\n")
     : "なし";
+  const bodyText =
+    received?.text ||
+    received?.html ||
+    "(本文は取得できませんでした。Resend APIキーの受信メール取得権限を確認してください。)";
+  const toAddresses = received?.to || event.data.to || event.data.received_for || [];
+  const ccAddresses = received?.cc || event.data.cc || [];
   const metaText = [
     "notify@nouiki-lab.com 宛にメールが届きました。",
     "",
-    `From: ${received.from || event.data.from || "unknown"}`,
-    `To: ${(received.to || event.data.to || []).join(", ") || "unknown"}`,
-    `Cc: ${(received.cc || []).join(", ") || "なし"}`,
-    `Date: ${received.created_at || "unknown"}`,
-    `Resend Email ID: ${received.id || event.data.email_id}`,
+    `From: ${received?.from || event.data.from || "unknown"}`,
+    `To: ${toAddresses.join(", ") || "unknown"}`,
+    `Cc: ${ccAddresses.join(", ") || "なし"}`,
+    `Date: ${received?.created_at || event.data.created_at || "unknown"}`,
+    `Resend Email ID: ${received?.id || event.data.email_id}`,
     `Attachments: ${attachments}`,
+    retrieveError ? `Body fetch: ${retrieveError}` : "Body fetch: ok",
     "",
     "---- 本文 ----",
-    received.text || received.html || "(本文を取得できませんでした)",
+    bodyText,
   ].join("\n");
+  const bodyHtml = received?.html || `<pre>${escapeHtml(bodyText)}</pre>`;
   const metaHtml = `<p>notify@nouiki-lab.com 宛にメールが届きました。</p>
 <dl>
-<dt>From</dt><dd>${escapeHtml(received.from || event.data.from || "unknown")}</dd>
-<dt>To</dt><dd>${escapeHtml((received.to || event.data.to || []).join(", ") || "unknown")}</dd>
-<dt>Cc</dt><dd>${escapeHtml((received.cc || []).join(", ") || "なし")}</dd>
-<dt>Date</dt><dd>${escapeHtml(received.created_at || "unknown")}</dd>
-<dt>Resend Email ID</dt><dd>${escapeHtml(received.id || event.data.email_id)}</dd>
-<dt>Attachments</dt><dd><pre>${escapeHtml(attachments)}</pre></dd>
+<dt>From</dt><dd>${escapeHtml(received?.from || event.data.from || "unknown")}</dd>
+<dt>To</dt><dd>${escapeHtml(toAddresses.join(", ") || "unknown")}</dd>
+<dt>Cc</dt><dd>${escapeHtml(ccAddresses.join(", ") || "なし")}</dd>
+<dt>Date</dt><dd>${escapeHtml(received?.created_at || event.data.created_at || "unknown")}</dd>
+<dt>Resend Email ID</dt><dd>${escapeHtml(received?.id || event.data.email_id)}</dd>
+<dt>Attachments</dt><dd>${escapeHtml(attachments).replace(/\n/g, "<br>")}</dd>
+<dt>Body fetch</dt><dd>${escapeHtml(retrieveError || "ok")}</dd>
 </dl>
-<hr />
-${received.html || `<pre>${escapeHtml(received.text || "(本文を取得できませんでした)")}</pre>`}`;
+<hr>
+<div>${bodyHtml}</div>`;
 
-  await sendResendNotification({
-    apiKey: env.RESEND_API_KEY,
-    fromEmail,
-    html: metaHtml,
-    notifyEmail: forwardTo,
-    replyTo: received.from || event.data.from || fromEmail,
-    subject,
-    text: metaText,
-  });
+  try {
+    await sendResendNotification({
+      apiKey: env.RESEND_API_KEY,
+      fromEmail,
+      html: metaHtml,
+      notifyEmail: forwardTo,
+      replyTo: received?.from || event.data.from || fromEmail,
+      subject,
+      text: metaText,
+    });
+  } catch (error) {
+    console.error("Resend inbound forward failed", error);
+    return jsonResponse({ message: "受信メールの転送に失敗しました。" }, 502);
+  }
 
   return jsonResponse({ message: "受信メールを転送しました。" });
 }
