@@ -4,7 +4,10 @@ import handler from "vinext/server/app-router-entry";
 
 interface Env {
   ASSETS: Fetcher;
-  DB: D1Database;
+  DB?: D1Database;
+  EMAIL?: SendEmail;
+  SUBSCRIBE_FROM_EMAIL?: string;
+  SUBSCRIBE_NOTIFY_EMAIL?: string;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
@@ -14,9 +17,193 @@ interface Env {
   };
 }
 
+interface SendEmail {
+  send(message: {
+    from: string | { email: string; name?: string };
+    to: string | { email: string; name?: string };
+    subject: string;
+    text: string;
+    html?: string;
+    replyTo?: string | { email: string; name?: string };
+  }): Promise<{ messageId: string }>;
+}
+
 interface ExecutionContext {
   waitUntil(promise: Promise<unknown>): void;
   passThroughOnException(): void;
+}
+
+type SubscriptionKind = "content" | "paid";
+
+const fromEmailFallback = "notify@nouiki-lab.com";
+const subscriptionLabels: Record<SubscriptionKind, string> = {
+  content: "コンテンツ誘導メールマガジン",
+  paid: "有料コンテンツ更新通知",
+};
+
+function jsonResponse(body: Record<string, unknown>, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+
+function isEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function sha256(value: string) {
+  const data = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function saveSubscription(
+  db: D1Database,
+  input: { email: string; kind: SubscriptionKind; source: string; page: string; submittedAt: string },
+) {
+  const emailHash = await sha256(input.email);
+  await db.batch([
+    db.prepare(
+      `CREATE TABLE IF NOT EXISTS subscriptions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        email_hash TEXT NOT NULL,
+        kind TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'active',
+        source TEXT,
+        first_page TEXT,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        UNIQUE(email_hash, kind)
+      )`,
+    ),
+    db.prepare(
+      `CREATE TABLE IF NOT EXISTS subscription_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email_hash TEXT NOT NULL,
+        kind TEXT NOT NULL,
+        source TEXT,
+        page TEXT,
+        event_type TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      )`,
+    ),
+  ]);
+  await db.batch([
+    db
+      .prepare(
+        `INSERT INTO subscriptions (email, email_hash, kind, status, source, first_page, created_at, updated_at)
+         VALUES (?, ?, ?, 'active', ?, ?, ?, ?)
+         ON CONFLICT(email_hash, kind) DO UPDATE SET
+           email = excluded.email,
+           status = 'active',
+           source = excluded.source,
+           updated_at = excluded.updated_at`,
+      )
+      .bind(input.email, emailHash, input.kind, input.source, input.page, input.submittedAt, input.submittedAt),
+    db
+      .prepare(
+        `INSERT INTO subscription_events (email_hash, kind, source, page, event_type, created_at)
+         VALUES (?, ?, ?, ?, 'subscribe', ?)`,
+      )
+      .bind(emailHash, input.kind, input.source, input.page, input.submittedAt),
+  ]);
+}
+
+async function handleSubscribe(request: Request, env: Env) {
+  if (request.method !== "POST") {
+    return jsonResponse({ message: "POSTで送信してください。" }, 405);
+  }
+
+  const contentType = request.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    return jsonResponse({ message: "送信形式が正しくありません。" }, 415);
+  }
+
+  let payload: Record<string, unknown>;
+  try {
+    payload = (await request.json()) as Record<string, unknown>;
+  } catch {
+    return jsonResponse({ message: "入力内容を読み取れませんでした。" }, 400);
+  }
+
+  const email = String(payload.email || "").trim().toLowerCase();
+  const kind = String(payload.kind || "") as SubscriptionKind;
+  const source = String(payload.source || "unknown").slice(0, 80);
+  const page = String(payload.page || "/").slice(0, 160);
+  const trap = String(payload.company || "");
+
+  if (trap) {
+    return jsonResponse({ message: "登録を受け付けました。" });
+  }
+
+  if (!isEmail(email) || !(kind in subscriptionLabels)) {
+    return jsonResponse({ message: "メールアドレスを確認してください。" }, 400);
+  }
+
+  if (!env.EMAIL) {
+    return jsonResponse({ message: "メール送信の準備中です。少し時間をおいてください。" }, 503);
+  }
+
+  if (!env.SUBSCRIBE_NOTIFY_EMAIL) {
+    return jsonResponse({ message: "通知先メールの準備中です。少し時間をおいてください。" }, 503);
+  }
+
+  const label = subscriptionLabels[kind];
+  const submittedAt = new Date().toISOString();
+  let storageStatus = "D1未接続のためメール通知のみ";
+  if (env.DB) {
+    try {
+      await saveSubscription(env.DB, { email, kind, source, page, submittedAt });
+      storageStatus = "D1保存済み";
+    } catch (error) {
+      storageStatus = `D1保存失敗: ${error instanceof Error ? error.message : "unknown error"}`;
+    }
+  }
+  const notifyEmail = env.SUBSCRIBE_NOTIFY_EMAIL;
+  const fromEmail = env.SUBSCRIBE_FROM_EMAIL || fromEmailFallback;
+  const lines = [
+    "脳イキ研究ノートの購読フォームから登録がありました。",
+    "",
+    `登録種別: ${label}`,
+    `メールアドレス: ${email}`,
+    `流入元: ${source}`,
+    `ページ: ${page}`,
+    `日時: ${submittedAt}`,
+    `保存状態: ${storageStatus}`,
+  ];
+
+  await env.EMAIL.send({
+    from: { email: fromEmail, name: "脳イキ研究ノート" },
+    to: notifyEmail,
+    replyTo: email,
+    subject: `【脳イキ研究ノート】${label} 登録`,
+    text: lines.join("\n"),
+    html: `<p>脳イキ研究ノートの購読フォームから登録がありました。</p>
+<dl>
+  <dt>登録種別</dt><dd>${escapeHtml(label)}</dd>
+  <dt>メールアドレス</dt><dd>${escapeHtml(email)}</dd>
+  <dt>流入元</dt><dd>${escapeHtml(source)}</dd>
+  <dt>ページ</dt><dd>${escapeHtml(page)}</dd>
+  <dt>日時</dt><dd>${escapeHtml(submittedAt)}</dd>
+  <dt>保存状態</dt><dd>${escapeHtml(storageStatus)}</dd>
+</dl>`,
+  });
+
+  return jsonResponse({ message: "登録を受け付けました。" });
 }
 
 // Image security config. SVG sources with .svg extension auto-skip the
@@ -26,8 +213,12 @@ interface ExecutionContext {
 // const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
 
 const worker = {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env = {}, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === "/api/subscribe") {
+      return handleSubscribe(request, env ?? {});
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

@@ -25,8 +25,8 @@ target: "Claude Code"
 
 - Live URL: `https://nouiki-lab.com`
 - Free-site repo: `/Users/mutsumi/AI_WorkSpace/nouiki-lab/free-site`
-- Kit登録フォームは作成済み。埋め込みコードは `/Users/mutsumi/AI_WorkSpace/nouiki-lab/mailmag/kit_setup.md`
-- ただし今回の主作業は「サイト文章のダブルチェック」。Kit操作やデプロイは別判断
+- メール登録導線はKitを使わず、Cloudflare Workerのサイト内フォームへ移行済み。
+- ただし今回の主作業は「サイト文章のダブルチェック」。メール基盤の本番デプロイは別判断
 
 ## 今回やること
 
@@ -189,13 +189,16 @@ SEOは「キーワードを詰める」ではなく、検索意図に対して�
 
 ## メール登録導線
 
-Kitフォームは作成済み。
+**2026-09-01更新**: Kitは使わない方針。Googleフォーム暫定運用も撤回し、Cloudflare Worker の `/api/subscribe` を使うサイト内フォームに置き換えた。
 
-埋め込みコード:
+登録導線は2種類に分離する。
 
-```html
-<script async data-uid="188cf734d9" src="https://motivated-artist-4115.kit.com/188cf734d9/index.js"></script>
-```
+- コンテンツ誘導メールマガジン: 無料記事の読み進め方、状態別メモ、次に見る記事の案内
+- 有料コンテンツ更新通知: 有料コンテンツの追加、改訂、販売ページ更新があった時だけ通知
+
+フォーム送信後は `SUBSCRIBE_NOTIFY_EMAIL` の宛先に通知する。Cloudflare D1 が接続されている場合は `subscriptions` と `subscription_events` に保存する。未接続の場合は通知メールのみで動く。
+
+送信元は `notify@nouiki-lab.com` 想定。Cloudflare Email Service の送信元ドメイン/アドレス設定と `send_email` binding が必要。
 
 登録導線の言葉は、サイト側では以下を基準にする。
 
@@ -223,8 +226,7 @@ Kitフォームは作成済み。
 - サイト構成そのもの
 - 記事追加/削除
 - 有料商品導線の強化
-- Kitフォーム埋め込み実装
-- デプロイ
+- Cloudflareフォーム基盤の本番デプロイ
 
 ## 検収チェック
 

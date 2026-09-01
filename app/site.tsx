@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import type { ReactNode } from "react";
 import { rawArticles } from "./content-data";
+import SubscriptionForm from "./subscription-form";
 
 export type Article = {
   f_id: string;
@@ -19,8 +20,6 @@ export type Article = {
 };
 
 export const categoryOrder = ["はじめに", "うまくいかない時", "状態別", "安全性"] as const;
-export const freeMemoFormUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLScijbDLEcJNmUJWvX2YUqv60Tm2t2btRjRZk7kjCwwruj3FSw/viewform";
 export const premiumGuideUrl = "https://deeps.me/u/sei/a/nouiki";
 
 const categoryMap: Record<string, (typeof categoryOrder)[number]> = {
@@ -149,12 +148,13 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <p>
           最初に届くのは、「昨日の状態を1分で分けるメモ」です。成功談を増やすためではなく、次に見る場所を減らすための短いメモです。
         </p>
-        <div className="list-cta-actions">
-          <a className="button" href={freeMemoFormUrl} data-cta={freeMemoCta} rel="noreferrer" target="_blank">
-            無料メモを受け取る
-          </a>
-          <p>18歳以上向け / Googleフォームへ移動します</p>
-        </div>
+        <SubscriptionForm
+          cta={freeMemoCta}
+          description="無料記事の読み進め方、状態別メモ、次に見る記事の案内を受け取れます。"
+          heading="コンテンツ誘導メールマガジン"
+          kind="content"
+          submitLabel="無料メモを受け取る"
+        />
       </div>
 
       <div className="list-cta-secondary">
@@ -163,6 +163,13 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <p>
           そこまでは整理できていて、次に何を見るか、何を1つだけ変えるか、どう記録して比較するかまで進みたい場合は、詳細ガイドがあります。
         </p>
+        <SubscriptionForm
+          cta="paid-updates"
+          description="有料コンテンツの追加、改訂、販売ページ更新があった時だけ通知します。"
+          heading="有料コンテンツ更新通知"
+          kind="paid"
+          submitLabel="更新通知を受け取る"
+        />
         <a className="secondary-link" href="/premium-guide" data-cta="premium-guide">
           詳細ガイドを見る
         </a>
