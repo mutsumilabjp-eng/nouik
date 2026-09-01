@@ -37,8 +37,8 @@ type SubscriptionKind = "content" | "paid";
 
 const fromEmailFallback = "notify@nouiki-lab.com";
 const subscriptionLabels: Record<SubscriptionKind, string> = {
-  content: "コンテンツ誘導メールマガジン",
-  paid: "有料コンテンツ更新通知",
+  content: "昨日の状態を1分で分けるメモ",
+  paid: "詳細ガイドの更新通知",
 };
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {

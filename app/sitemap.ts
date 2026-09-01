@@ -7,6 +7,7 @@ export default function sitemap() {
   return [
     { url: base, lastModified },
     { url: `${base}/premium-guide`, lastModified },
+    { url: `${base}/premium-updates`, lastModified },
     ...getArticles().map((article) => ({ url: `${base}${articleUrl(article)}`, lastModified })),
     ...Object.keys(staticPages).map((page) => ({ url: `${base}/${page}`, lastModified })),
   ];

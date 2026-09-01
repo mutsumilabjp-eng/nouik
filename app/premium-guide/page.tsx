@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import Link from "next/link";
 import SubscriptionForm from "../subscription-form";
 import { premiumGuideUrl } from "../site";
 
@@ -128,8 +129,8 @@ export default function PremiumGuidePage() {
           </p>
           <SubscriptionForm
             cta="premium-guide-free-memo"
-            description="無料記事の読み進め方、状態別メモ、次に見る記事の案内を受け取れます。"
-            heading="コンテンツ誘導メールマガジン"
+            description="昨日どこで止まったのかを分けて、次に読む場所を減らすための短いメモです。"
+            heading="昨日の状態を1分で分けるメモ"
             kind="content"
             submitLabel="無料メモを受け取る"
           />
@@ -142,6 +143,13 @@ export default function PremiumGuidePage() {
           <h2 id="premium-purchase-title">脳イキ研究ノート 詳細ガイド</h2>
           <p>
             約38,000文字 / 5,980円。18歳以上向けの有料コンテンツです。特定の体験や結果を保証するものではありません。
+          </p>
+          <p>
+            追加や改訂があった時だけ知りたい場合は、
+            <Link href="/premium-updates" data-cta="premium-updates-from-guide">
+              更新連絡だけ受け取る
+            </Link>
+            こともできます。
           </p>
         </div>
         <a className="button" href={premiumGuideUrl} data-cta="premium-guide" rel="noreferrer" target="_blank">
