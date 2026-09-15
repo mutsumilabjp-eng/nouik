@@ -3,12 +3,15 @@ import { staticPages } from "./static-pages";
 
 export default function sitemap() {
   const base = "https://nouiki-lab.com";
-  const lastModified = new Date("2026-08-30");
+  const siteUpdated = new Date("2026-09-15");
   return [
-    { url: base, lastModified },
-    { url: `${base}/premium-guide`, lastModified },
-    { url: `${base}/premium-updates`, lastModified },
-    ...getArticles().map((article) => ({ url: `${base}${articleUrl(article)}`, lastModified })),
-    ...Object.keys(staticPages).map((page) => ({ url: `${base}/${page}`, lastModified })),
+    { url: base, lastModified: siteUpdated },
+    { url: `${base}/premium-guide`, lastModified: siteUpdated },
+    { url: `${base}/premium-updates`, lastModified: siteUpdated },
+    ...getArticles().map((article) => ({
+      url: `${base}${articleUrl(article)}`,
+      lastModified: new Date(article.last_updated),
+    })),
+    ...Object.keys(staticPages).map((page) => ({ url: `${base}/${page}`, lastModified: siteUpdated })),
   ];
 }

@@ -43,7 +43,7 @@ async function routes() {
   const articleFiles = [...articleSource.matchAll(/"((F\d+_[^"]+\.md))"/g)].map(([, file]) => file);
   const articles = articleFiles.map((file) => `/articles/${articleSlug(file)}`);
 
-  return ["/", "/premium-guide", ...staticPages, ...articles, "/robots.txt", "/sitemap.xml"];
+  return ["/", "/premium-guide", "/premium-updates", ...staticPages, ...articles, "/robots.txt", "/sitemap.xml"];
 }
 
 async function waitForServer(child, baseUrl) {
