@@ -119,7 +119,7 @@ export default async function ArticlePage({ params }: Params) {
       <article className="article">
         <p className="kicker">{article.group}</p>
         <h1>{article.title}</h1>
-        <p className="article-meta">編集・調査: 汐　最終更新: {article.last_updated}</p>
+        <p className="article-meta">編集・調査: 汐 / 最終更新: {article.last_updated}</p>
         <aside className="article-research-note" aria-label="この記事の調査方針">
           <strong>この記事の調査方針</strong>
           <p>
