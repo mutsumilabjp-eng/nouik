@@ -61,7 +61,7 @@ export default function SubscriptionForm({ cta, description, heading, kind, subm
         <p>{description}</p>
       </div>
       <label htmlFor={emailId}>メールアドレス</label>
-      <label className="subscription-trap">
+      <label className="subscription-trap" aria-hidden="true" hidden>
         会社名
         <input name="company" type="text" tabIndex={-1} autoComplete="off" />
       </label>
@@ -73,6 +73,7 @@ export default function SubscriptionForm({ cta, description, heading, kind, subm
           inputMode="email"
           autoComplete="email"
           placeholder="mail@example.com"
+          aria-label="メールアドレス"
           required
         />
         <button className="button" disabled={status === "loading"} type="submit">
