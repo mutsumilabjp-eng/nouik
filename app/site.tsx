@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import type { ReactNode } from "react";
 import { rawArticles } from "./content-data";
+import { seoArticleOverrides } from "./seo-overrides";
 import SubscriptionForm from "./subscription-form";
 
 export type Article = {
@@ -41,15 +42,15 @@ const cardLabels: Record<string, string> = {
   F01: "言葉の意味が気になる",
   F02: "本当か疑っている",
   F04: "嘘っぽく見えている",
-  F05: "何も感じない",
+  F05: "音声で何も感じない",
   F06: "途中で別のことを考える",
   F07: "怖くなって力が入る",
   F08: "いい所で止まる",
   F09: "不安が残っている",
-  F10: "自分の止まり方を見たい",
+  F10: "6つの状態を一覧で見る",
   F11: "反応はあるのに快くない",
   F12: "一度だけで戻れない",
-  F13: "どれに近いか迷っている",
+  F13: "できない理由を整理する",
 };
 
 const listCtaArticleIds = new Set(["F05", "F06", "F08", "F10", "F11", "F12", "F13"]);
@@ -76,17 +77,18 @@ export function getArticles(): Article[] {
   return rawArticles.map(([file, raw]) => {
     const { meta, body } = parseFrontMatter(raw, file);
     const f_id = String(meta.f_id);
+    const override = seoArticleOverrides[f_id] ?? {};
     return {
       f_id,
-      title: String(meta.title),
-      meta_description: String(meta.meta_description),
-      target_keyword: String(meta.target_keyword),
+      title: override.title ?? String(meta.title),
+      meta_description: override.meta_description ?? String(meta.meta_description),
+      target_keyword: override.target_keyword ?? String(meta.target_keyword),
       category: String(meta.category),
       tier: String(meta.tier),
-      internal_links: meta.internal_links as string[],
+      internal_links: override.internal_links ?? (meta.internal_links as string[]),
       version: String(meta.version),
-      last_updated: String(meta.last_updated),
-      body,
+      last_updated: override.last_updated ?? String(meta.last_updated),
+      body: override.body ?? body,
       file,
       slug: slugFor(file),
       group: categoryMap[f_id] ?? "はじめに",
