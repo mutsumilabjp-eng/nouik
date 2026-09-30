@@ -2,6 +2,7 @@
 import type { ReactNode } from "react";
 import { rawArticles } from "./content-data";
 import { seoArticleOverrides } from "./seo-overrides";
+import SubscriptionForm from "./subscription-form";
 
 export type Article = {
   f_id: string;
@@ -21,8 +22,6 @@ export type Article = {
 
 export const categoryOrder = ["はじめに", "うまくいかない時", "状態別", "安全性"] as const;
 export const premiumGuideUrl = "https://deeps.me/u/sei/a/nouiki";
-export const freeMemoUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLScijbDLEcJNmUJWvX2YUqv60Tm2t2btRjRZk7kjCwwruj3FSw/viewform";
 
 const categoryMap: Record<string, (typeof categoryOrder)[number]> = {
   F01: "はじめに",
@@ -151,18 +150,13 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <p>
           最初に届くのは、「昨日の状態を1分で分けるメモ」です。成功談を増やすためではなく、次に見る場所を減らすための短いメモです。
         </p>
-        <div className="list-cta-actions">
-          <a
-            className="button"
-            href={freeMemoUrl}
-            data-cta={freeMemoCta}
-            rel="noreferrer"
-            target="_blank"
-          >
-            無料メモを受け取る
-          </a>
-          <p className="microcopy">18歳以上向け / Googleフォームへ移動します</p>
-        </div>
+        <SubscriptionForm
+          cta={freeMemoCta}
+          description="昨日どこで止まったのかを分けて、次に読む場所を減らすための短いメモです。"
+          heading="昨日の状態を1分で分けるメモ"
+          kind="content"
+          submitLabel="無料メモを受け取る"
+        />
       </div>
 
       <div className="list-cta-secondary">
