@@ -76,7 +76,7 @@ export default function SubscriptionForm({ cta, description, heading, kind, subm
           aria-label="メールアドレス"
           required
         />
-        <button className="button" disabled={status === "loading"} type="submit">
+        <button className="button" data-cta={cta} disabled={status === "loading"} type="submit">
           {status === "loading" ? "送信中" : submitLabel}
         </button>
       </div>
