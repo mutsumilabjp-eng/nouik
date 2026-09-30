@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
-import SubscriptionForm from "../subscription-form";
-import { premiumGuideUrl } from "../site";
+import { freeMemoUrl, premiumGuideUrl } from "../site";
 
 export const metadata: Metadata = {
   title: "脳イキ研究ノート 詳細ガイド",
@@ -49,7 +48,7 @@ export default function PremiumGuidePage() {
             できた人の話を増やすより、自分がどこで止まっているのかを一度見たい。そんな人のために、6つの止まり方から次に見る条件を整理する実践ガイドです。
           </p>
           <div className="premium-meta" aria-label="詳細ガイドの概要">
-            <span>約38,000文字</span>
+            <span>約25,000文字</span>
             <span>5,980円</span>
             <span>18歳以上向け</span>
           </div>
@@ -127,13 +126,18 @@ export default function PremiumGuidePage() {
           <p>
             何から見ればいいか迷っているなら、詳細ガイドへ進む前に「昨日の状態を1分で分けるメモ」から始められます。
           </p>
-          <SubscriptionForm
-            cta="premium-guide-free-memo"
-            description="昨日どこで止まったのかを分けて、次に読む場所を減らすための短いメモです。"
-            heading="昨日の状態を1分で分けるメモ"
-            kind="content"
-            submitLabel="無料メモを受け取る"
-          />
+          <div className="list-cta-actions">
+            <a
+              className="button"
+              href={freeMemoUrl}
+              data-cta="premium-guide-free-memo"
+              rel="noreferrer"
+              target="_blank"
+            >
+              無料メモを受け取る
+            </a>
+            <p className="microcopy">18歳以上向け / Googleフォームへ移動します</p>
+          </div>
         </div>
       </section>
 
@@ -142,7 +146,7 @@ export default function PremiumGuidePage() {
           <p className="kicker">詳細を見る</p>
           <h2 id="premium-purchase-title">脳イキ研究ノート 詳細ガイド</h2>
           <p>
-            約38,000文字 / 5,980円。18歳以上向けの有料コンテンツです。特定の体験や結果を保証するものではありません。
+            約25,000文字 / 5,980円。18歳以上向けの有料コンテンツです。特定の体験や結果を保証するものではありません。
           </p>
           <p>
             追加や改訂があった時だけ知りたい場合は、
