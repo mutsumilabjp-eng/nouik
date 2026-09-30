@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
-import { freeMemoUrl, premiumGuideUrl } from "../site";
+import SubscriptionForm from "../subscription-form";
+import { premiumGuideUrl } from "../site";
 
 export const metadata: Metadata = {
   title: "脳イキ研究ノート 詳細ガイド",
@@ -126,18 +127,13 @@ export default function PremiumGuidePage() {
           <p>
             何から見ればいいか迷っているなら、詳細ガイドへ進む前に「昨日の状態を1分で分けるメモ」から始められます。
           </p>
-          <div className="list-cta-actions">
-            <a
-              className="button"
-              href={freeMemoUrl}
-              data-cta="premium-guide-free-memo"
-              rel="noreferrer"
-              target="_blank"
-            >
-              無料メモを受け取る
-            </a>
-            <p className="microcopy">18歳以上向け / Googleフォームへ移動します</p>
-          </div>
+          <SubscriptionForm
+            cta="premium-guide-free-memo"
+            description="昨日どこで止まったのかを分けて、次に読む場所を減らすための短いメモです。"
+            heading="昨日の状態を1分で分けるメモ"
+            kind="content"
+            submitLabel="無料メモを受け取る"
+          />
         </div>
       </section>
 
