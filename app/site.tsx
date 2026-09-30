@@ -2,7 +2,6 @@
 import type { ReactNode } from "react";
 import { rawArticles } from "./content-data";
 import { seoArticleOverrides } from "./seo-overrides";
-import SubscriptionForm from "./subscription-form";
 
 export type Article = {
   f_id: string;
@@ -22,6 +21,8 @@ export type Article = {
 
 export const categoryOrder = ["はじめに", "うまくいかない時", "状態別", "安全性"] as const;
 export const premiumGuideUrl = "https://deeps.me/u/sei/a/nouiki";
+export const freeMemoUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLScijbDLEcJNmUJWvX2YUqv60Tm2t2btRjRZk7kjCwwruj3FSw/viewform";
 
 const categoryMap: Record<string, (typeof categoryOrder)[number]> = {
   F01: "はじめに",
@@ -53,7 +54,7 @@ const cardLabels: Record<string, string> = {
   F13: "できない理由を整理する",
 };
 
-const listCtaArticleIds = new Set(["F05", "F06", "F08", "F10", "F11", "F12", "F13"]);
+const listCtaArticleIds = new Set(["F05", "F06", "F07", "F08", "F10", "F11", "F12", "F13"]);
 
 function parseFrontMatter(raw: string, file: string) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -150,13 +151,18 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <p>
           最初に届くのは、「昨日の状態を1分で分けるメモ」です。成功談を増やすためではなく、次に見る場所を減らすための短いメモです。
         </p>
-        <SubscriptionForm
-          cta={freeMemoCta}
-          description="昨日どこで止まったのかを分けて、次に読む場所を減らすための短いメモです。"
-          heading="昨日の状態を1分で分けるメモ"
-          kind="content"
-          submitLabel="無料メモを受け取る"
-        />
+        <div className="list-cta-actions">
+          <a
+            className="button"
+            href={freeMemoUrl}
+            data-cta={freeMemoCta}
+            rel="noreferrer"
+            target="_blank"
+          >
+            無料メモを受け取る
+          </a>
+          <p className="microcopy">18歳以上向け / Googleフォームへ移動します</p>
+        </div>
       </div>
 
       <div className="list-cta-secondary">
@@ -168,7 +174,7 @@ export function listAcquisitionCta(source: "top" | "article" = "top") {
         <a className="secondary-link" href="/premium-guide" data-cta="premium-guide">
           詳細ガイドを見る
         </a>
-        <p className="microcopy">約38,000文字 / 5,980円 / 18歳以上向け</p>
+        <p className="microcopy">約25,000文字 / 5,980円 / 18歳以上向け</p>
         <p className="microcopy">特定の体験や結果を保証するものではありません。</p>
       </div>
     </section>
